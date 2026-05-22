@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Write(**/docs/inbox-from-brain/**)",
+      "Edit(**/docs/inbox-from-brain/**)",
+      "Read(**/docs/inbox-from-brain/**)",
+      "Read(**/docs/SESSION_HANDOFF.md)",
+      "Read(**/docs/DEVELOPMENT_LOG.md)",
+      "Read(**/docs/DEV_HISTORY.md)",
+      "Read(**/docs/PENDING_FOLLOWUPS.md)",
+      "Read(**/docs/PROJECT_STATE.md)",
+      "Read(**/CLAUDE.md)",
+      "Bash(git -C * status*)",
+      "Bash(git -C * log*)",
+      "Bash(git -C * diff*)",
+      "Bash(git -C * remote -v)",
+      "Bash(git -C * tag*)",
+      "Bash(git -C * show*)"
+    ]
+  }
+}

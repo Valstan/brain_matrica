@@ -19,7 +19,7 @@
 | [0002](items/0002-setka-link-to-brain-matrica.md) | setka | Добавить ссылку на brain_matrica в `CLAUDE.md` (источник правды) | 📤 sent | 2026-05-22 | 2026-05-22 |
 | [0003](items/0003-matricarmz-untracked-brain-matrica-folder.md) | MatricaRMZ | Untracked папка `brain_matrica/` внутри репо — разобраться | 📤 sent | 2026-05-22 | 2026-05-22 |
 | [0004](items/0004-setka-session-handoff-pattern.md) | setka | Применить идею #003 (SESSION_HANDOFF.md) полностью | 📤 sent | 2026-05-22 | 2026-05-22 |
-| [0005](items/0005-setka-log-path-env-var.md) | setka | `LOG_PATH` env var вместо hardcoded пути логов | 📦 pending-delivery ([snippet](pending-delivery/setka-0005-log-path-env-var.md)) | 2026-05-22 | 2026-05-22 |
+| [0005](items/0005-setka-log-path-env-var.md) | setka | `LOG_PATH` env var вместо hardcoded пути логов | 📤 sent | 2026-05-22 | 2026-05-22 |
 
 ## Архив
 
@@ -32,5 +32,5 @@ _(сюда переезжают done / rejected / superseded — для исто
 - **Текущая нагрузка на проекты:**
   - MatricaRMZ: 2 sent (0001, 0003)
   - GONBA: 1 sent (0001)
-  - setka: 4 sent (0001, 0002, 0004, 0005) — **близко к лимиту в 3 активных**, новые заявки в setka **придержать** до закрытия минимум двух текущих.
+  - setka: 4 sent (0001, 0002, 0004, 0005) — **превышен лимит** (3 по протоколу). Стартовая партия — допустимо. Новые заявки в setka **не отправлять** до закрытия минимум двух текущих.
 - **Самая старая sent-заявка:** 2026-05-22 (0 дней). Лимит 30 дней.
