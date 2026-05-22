@@ -1,0 +1,7 @@
+# Briefings folder
+
+Сюда сохраняются ежедневные / еженедельные briefings от morning-briefing-task.md.
+
+Формат файла: `morning-YYYY-MM-DD.md` (или `weekly-YYYY-WW.md` для еженедельных).
+
+Эта папка под git — briefings сохраняются как история «что происходило». Если их станет слишком много (через N месяцев) — старые перенести в `briefings/_archive/`.
