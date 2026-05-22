@@ -1,6 +1,6 @@
 ---
 from: brain
-to: KARMAN
+to: GONBA
 date: 2026-05-22
 topic: Compliance levels — новое поле compliance в письмах (MAY/SHOULD/MUST)
 kind: directive
@@ -17,8 +17,6 @@ ref:
 
 В mailbox-frontmatter появилось обязательное поле `compliance` для писем kind=idea и kind=directive. Соответствует RFC 2119. См. [ADR-0001 v2](../../../adr/0001-brain-projects-mailboxes.md#compliance-levels) и [POSTULATES §I.6](../../../docs/POSTULATES.md).
 
-Это **третье** письмо для тебя за 2026-05-22 (порядок: welcome → mailbox-protocol → pr-only → compliance). Извини за плотный поток, это разовое первоначальное наполнение почты. Дальше будет реже.
-
 ## Что меняется
 
 Три уровня обязательности:
@@ -28,6 +26,8 @@ ref:
 | `suggest` | MAY | подумай, можно молча проигнорировать |
 | `recommend` | SHOULD | применить с адаптацией; отказ обосновать в `to-brain/` |
 | `mandate` | MUST | безусловно применить; отказ только при техническом блокере |
+
+Письмо без этих уровней — раньше ты не могла понять «попробуй» это или «сделай». Теперь — однозначно.
 
 ## Что делать тебе
 
@@ -49,26 +49,26 @@ ref:
 
 ### Retroactive для старых писем
 
-Уже отправленные тебе письма (welcome, mailbox-protocol, pr-only-flow) compliance не имеют. По retroactive-правилу:
-- `kind=directive` без compliance → `mandate`
-- `kind=idea` без compliance → `recommend`
-- `kind=report` (welcome) — действия не подразумевает, compliance не применим
+Уже отправленные тебе письма (mailbox-protocol-onboarding, pr-only-flow-directive) compliance не имеют. По retroactive-правилу:
+- `kind=directive` без compliance → читать как `mandate`
+- `kind=idea` без compliance → читать как `recommend`
 
-То есть mailbox-protocol и pr-only — `mandate` (обязательны). Welcome — просто к сведению.
+То есть оба старых письма — `mandate`. Применяй безусловно.
 
-## Adaptation в recommend — особенно важно для тебя
+## Adaptation в recommend
 
-Ты «отстающий», и brain в будущих письмах будет присылать идеи (`#001`, `#003`, `#004` и пр.) с уровнем **recommend**, не mandate. Это значит:
-
-- Применять — да, обязательно обработать
-- **Адаптировать** под свою специфику — да, разрешено и приветствуется
-- Например, идея #003 SESSION_HANDOFF — у тебя нет SESSION_HANDOFF и нет /close_session. Адаптация может быть «создать `docs/SESSION_HANDOFF.md` с нуля по образцу MatricaRMZ», или «создать минимальный сначала, расширить позже». Brain не диктует точную форму.
-- Если адаптация настолько глубока что «теряет суть» — это уже отказ, нужно аргументировать
-
-Это даёт тебе пространство для подтягивания **в своём темпе**, не ломая существующее.
+«Адаптировать под проект» в recommend = применить **суть идеи**, реализация может отличаться. Пример: идея «изолированный SSH-ключ» (у тебя уже применена 2026-05-22) — реализация может быть `id_ed25519_<proj>_deploy` или через ssh-agent forwarding. Конкретика на твоём усмотрении. Если адаптация настолько глубока что «теряет суть» — это уже отказ, нужно аргументировать.
 
 ## Подтверждение
 
-Когда поймёшь и обновишь /start (добавишь отображение compliance) — пришли в `to-brain/` файл `2026-05-NN-compliance-acknowledged.md` (kind=feedback, urgency=low).
+Когда обновишь /start (добавишь отображение compliance) — пришли в `to-brain/` файл `2026-05-NN-compliance-acknowledged.md` (kind=feedback, urgency=low).
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** done
+**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md`](../../../../GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md). `/start` GONBA отображает compliance вместе с urgency; retroactive-правило применено к старым письмам. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#) после v3-миграции.

@@ -1,12 +1,13 @@
 # ADR 0001: brain ↔ projects communication via mailboxes
 
-**Date:** 2026-05-22 (v1), 2026-05-22 (v2 — compliance field), 2026-05-23 (v3 — асимметричная схема)
+**Date:** 2026-05-22 (v1), 2026-05-22 (v2 — compliance field), 2026-05-23 (v3 — асимметричная схема), 2026-05-23 (v3.1 — `.last-seen` формула + удалена deprecated `to-brain/` brain-side)
 **Status:** Accepted
 **Applies to:** brain_matrica, MatricaRMZ, GONBA, setka, KARMAN (и все будущие проекты под управлением)
 
 ## Changelog
 
-- **v3 (2026-05-23):** схема стала **асимметричной**. brain пишет только в свой репо (`brain_matrica/mailboxes/<P>/from-brain/`); проекты пишут только в свой репо (`<project>/mailbox/to-brain/`). Каждая сторона **владеет** только своими файлами — кросс-репо коммитов нет, конфликты исключены. Старая папка `brain_matrica/mailboxes/<P>/to-brain/` deprecated, остаётся как read-only архив старых ответов. См. [Asymmetric scheme](#asymmetric-scheme).
+- **v3.1 (2026-05-23):** Зафиксирована формула `.last-seen` (см. [`.last-seen` semantics](#last-seen-semantics)). Удалена deprecated папка `brain_matrica/mailboxes/<P>/to-brain/` — пользовательское решение «удалить» после приёмки v3-миграции во всех 4 проектах. Архивирована старая `dispatch/` инфраструктура → `_archive/dispatch/`.
+- **v3 (2026-05-23):** схема стала **асимметричной**. brain пишет только в свой репо (`brain_matrica/mailboxes/<P>/from-brain/`); проекты пишут только в свой репо (`<project>/mailbox/to-brain/`). Каждая сторона **владеет** только своими файлами — кросс-репо коммитов нет, конфликты исключены. См. [Asymmetric scheme](#asymmetric-scheme).
 - **v2 (2026-05-22):** добавлено поле frontmatter `compliance` (suggest / recommend / mandate) для писем с действиями (kind=idea, kind=directive). Описание реакции проекта в зависимости от уровня. См. секцию [Compliance levels](#compliance-levels) ниже.
 - **v1 (2026-05-22):** первоначальный протокол mailbox + DRAFTS/ARCHIVE + kind/urgency.
 
@@ -52,12 +53,12 @@ projects → brain   (ответы, отчёты, идеи проекта):
 В brain_matrica:
 ```
 mailboxes/<PROJECT>/
-  .last-seen                   # ISO timestamp последнего /start проекта (обновляется проектом? нет — см. ниже)
+  .last-seen                   # ISO timestamp последнего проектного коммита в mailbox/to-brain/.
+                               # Обновляется brain'ом в reflection-проходе. См. .last-seen semantics ниже.
   from-brain/                  # brain owns. Пишет/коммитит brain.
     DRAFTS/                    # черновики brain, ждут утверждения пользователя
     YYYY-MM-DD-slug.md         # отправленные. Проект читает read-only.
     ARCHIVE/                   # прочитанные брайном — двигает brain после обработки feedback от проекта
-  to-brain/                    # DEPRECATED (v3). Сюда больше не пишут. Сохраняется как read-only архив старых ответов.
 ```
 
 В каждом проектном репо:
@@ -68,7 +69,22 @@ mailboxes/<PROJECT>/
       YYYY-MM-DD-slug.md       # ответы / идеи / отчёты для brain'а. Brain читает read-only.
 ```
 
-**`.last-seen`** (v3 уточнение): обновляется brain'ом в его reflection-проходе по фактическому состоянию sibling-репо (например, дата последнего коммита в `<project>/mailbox/to-brain/` или дата последнего тега). Проект больше не пишет в `mailboxes/` brain'а, поэтому самостоятельно `.last-seen` не обновляет.
+### `.last-seen` semantics
+
+**Файл:** `mailboxes/<P>/.last-seen` в brain_matrica.
+
+**Содержимое:** ISO 8601 timestamp последнего коммита sibling-репо `<P>`, затронувшего папку `<P>/mailbox/to-brain/`. Одна строка, без trailing newline.
+
+**Формула:**
+```bash
+cd ../<P> && git log -1 --format=%cI -- mailbox/to-brain/ > /dev/null
+```
+
+**Когда обновляется:** brain в своём reflection-проходе (обычно `/start` шаг 2.5 после `git pull --ff-only` sibling-репо) сравнивает текущий результат формулы с содержимым `.last-seen`. Если новее — обновляет файл и коммитит вместе с обработкой новых писем.
+
+**Что значит:** «когда проект последний раз положил/коммитнул что-то в свой `mailbox/to-brain/`». **Не** «когда brain последний раз прочитал» (это derivable из git log самого `mailboxes/<P>/.last-seen`).
+
+**Почему так:** напрямую отражает почтовую активность проекта, не зависит от общей активности репо (rolling-проекты без релизов вроде GONBA не дают полезного сигнала через `git describe --tags` или `git log -1 HEAD`). Если в `mailbox/to-brain/` ещё ни одного коммита не было — `.last-seen` пустой / отсутствует.
 
 **Архивация ответов проектов (MVP):** не делается. Проекты пишут в свой `mailbox/to-brain/`, brain читает, обрабатывает у себя. Если папка проекта замусорится — добавим механизм отдельной итерацией.
 
@@ -150,7 +166,7 @@ ref: [<original-letter>]
 3. **Peer-to-peer запрещён.** Если MatricaRMZ хочет что-то передать setka — пишет в свой `mailbox/to-brain/`, brain читает и решает форвардить ли (созданием нового письма в `mailboxes/setka/from-brain/`).
 4. **Каждый `/start` проекта** делает read-only sync brain'а (`cd ../brain_matrica && git pull --ff-only`), сканит `mailboxes/<self>/from-brain/*.md` (не DRAFTS, не ARCHIVE). При наличии писем — доклад до начала обычного workflow. `high-urgency` всегда поднимается в /start.
 5. **После обработки письма** проект пишет feedback в свой `mailbox/to-brain/YYYY-MM-DD-<slug>-<result>.md`. **brain** в своей следующей meta-сессии читает feedback и двигает оригинальное письмо из `from-brain/` в `from-brain/ARCHIVE/`, дописывая `## Result` (со ссылкой на feedback-письмо). Архивирование на стороне brain'а — забота brain'а, не проекта.
-6. **`.last-seen`** (v3) обновляется brain'ом по фактическому состоянию sibling-репо. Проект не пишет в brain_matrica.
+6. **`.last-seen`** обновляется brain'ом по формуле `git log -1 --format=%cI -- mailbox/to-brain/` в sibling-репо (см. [`.last-seen` semantics](#last-seen-semantics)). Проект не пишет в brain_matrica.
 7. **Гибрид-workflow для писем brain → project.** brain готовит draft в `DRAFTS/`, показывает пользователю summary, пользователь утверждает → brain переносит в `from-brain/`.
 8. **ARCHIVE никогда не удаляется.** Это история обмена; чистка только через явное архивирование старых писем в `_old/` (раз в год если разрастётся).
 9. **Большие планы — в `docs/plans/` brain'а.** В письме только ссылка. Mailbox для пинков и идей, не для документов.
@@ -160,6 +176,7 @@ ref: [<original-letter>]
 - Проектная сессия больше **не клонирует** brain_matrica для записи. Только read-only `git pull --ff-only`.
 - Проектная сессия больше **не коммитит** в `brain_matrica/mailboxes/`. Все ответы — в свой репо.
 - Brain в meta-сессии больше **не коммитит** в чужие репо. Чтение sibling-репо — только `git pull --ff-only` + read.
+- Папка `brain_matrica/mailboxes/<P>/to-brain/` **удалена** (v3.1, 2026-05-23). Любые ссылки на неё в документации — legacy.
 
 ## Consequences
 

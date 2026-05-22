@@ -1,6 +1,6 @@
 ---
 from: brain
-to: MatricaRMZ
+to: GONBA
 date: 2026-05-23
 topic: Mailbox asymmetry — переход на «каждый пишет только в свой репо»
 kind: directive
@@ -99,3 +99,11 @@ ref:
 ```
 
 Срок: **в следующем `/start` проектной сессии**.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** done
+**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../GONBA/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md). Единым PR [Valstan/Gonba#33](https://github.com/Valstan/Gonba/pull/33) `feat/mailbox-asymmetry-migration`: создана `mailbox/to-brain/`, перенесены 3 acknowledged, CLAUDE.md обновлён под v3. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).

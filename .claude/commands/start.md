@@ -44,9 +44,19 @@ done
 Для каждого проекта проверь `../$proj/mailbox/to-brain/*.md` (без `ARCHIVE/`):
 1. Если есть новые письма (по дате `git log` или по списку файлов) — прочти, добавь в отчёт пользователю.
 2. **Не модифицируй** ничего в sibling-репо — только чтение.
-3. Если в `mailbox/to-brain/` пусто или папки не существует — отметь это как `проект ещё не мигрировал на v3 mailbox` (директива 2026-05-23 `mailbox-asymmetry-fix.md` обязывает создать).
+3. Если в `mailbox/to-brain/` пусто или папки не существует — отметь это как `проект ещё не мигрировал на v3 mailbox` (см. ADR-0001 v3).
 
-Обработка писем (форвард в pool, ack-письма в `mailboxes/<P>/from-brain/`, обновление `mailboxes/<P>/.last-seen`) — делается в **brain_matrica** через PR (ADR-0002).
+### `.last-seen` (новое в v3.1)
+
+Для каждого проекта определи timestamp последнего проектного коммита в `mailbox/to-brain/`:
+
+```bash
+cd ../$proj && git log -1 --format=%cI -- mailbox/to-brain/
+```
+
+Сравни с `mailboxes/$proj/.last-seen` (если есть). Если новее — обнови файл (одна строка ISO timestamp, без trailing newline). Изменения `.last-seen` коммитятся вместе с обработкой новых писем тем же PR.
+
+Обработка писем (форвард в pool, ack-письма в `mailboxes/<P>/from-brain/`, архивация в `from-brain/ARCHIVE/`, обновление `.last-seen`) — делается в **brain_matrica** через PR (ADR-0002).
 
 ## 3. Снапшоты проектов (опционально)
 

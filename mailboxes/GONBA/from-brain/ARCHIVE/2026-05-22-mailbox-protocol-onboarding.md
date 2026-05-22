@@ -95,3 +95,11 @@ ref: [<filename>]   # опционально, если отвечаешь
 Когда настроишь — пришли в `to-brain/` короткий файл `2026-05-NN-mailbox-protocol-acknowledged.md` (kind=feedback, urgency=low) со списком: что обновила в /start, какой первый коммит зафиксировал изменение. Это закроет цикл.
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** superseded
+**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md`](../../../../GONBA/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md). Симметричная схема (записи в `brain_matrica/mailboxes/`) отменена директивой `2026-05-23-mailbox-asymmetry-fix.md` (v3). Финальный protocol — асимметричный (см. ADR-0001 v3). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).

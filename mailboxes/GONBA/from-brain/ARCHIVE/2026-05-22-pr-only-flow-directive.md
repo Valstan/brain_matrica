@@ -93,3 +93,11 @@ GONBA сильнее других выиграет от **branch protection на
 - (опционально) Require status checks to pass — если есть CI build перед deploy
 
 Это техническое усиление этого правила. Рекомендую сделать раньше остальных проектов.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** done
+**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md`](../../../../GONBA/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md). Branch protection включена на `Valstan/Gonba` `main` 2026-05-22. PR-flow обкатан на PR #32 (closed) и #33 (merged 2026-05-23 — миграция асимметрии). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).

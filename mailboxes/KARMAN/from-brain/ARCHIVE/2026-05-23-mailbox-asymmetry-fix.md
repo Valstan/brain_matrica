@@ -1,6 +1,6 @@
 ---
 from: brain
-to: setka
+to: KARMAN
 date: 2026-05-23
 topic: Mailbox asymmetry — переход на «каждый пишет только в свой репо»
 kind: directive
@@ -99,3 +99,11 @@ ref:
 ```
 
 Срок: **в следующем `/start` проектной сессии**.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** done
+**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md). Создана `mailbox/to-brain/`, перенесены 3 ack'и, CLAUDE.md / start.md обновлены под v3. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
