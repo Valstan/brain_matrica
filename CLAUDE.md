@@ -18,7 +18,10 @@ Internal reasoning, commit messages, идентификаторы — English.
 Эти файлы хранят состояние работы между сессиями. Читать в начале каждой новой meta-сессии (это делает `/start`).
 
 - [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) — **sticky-note последней meta-сессии**: что обсуждали, что следующее, ссылка на план если есть. Заполняется `/close_session`, читается `/start` шагом 0.
+- [`docs/POSTULATES.md`](docs/POSTULATES.md) — **книга постулатов**: куратируемый список принципов работы brain_matrica, накопленных от сессии к сессии. Читать после SESSION_HANDOFF.
+- [`docs/BOOTSTRAP.md`](docs/BOOTSTRAP.md) — инструкция развёртывания всех проектов на новом компе. Гарантирует что относительные пути `../<project>/` всегда работают.
 - [`projects/INDEX.md`](projects/INDEX.md) — реестр всех проектов с метаданными (стек, статус, прод-URL, repo, владелец, текущая версия). Обновляется когда что-то меняется в проекте на стратегическом уровне (новый прод, смена стека, заморозка).
+- [`mailboxes/`](mailboxes/) — **почтовая система brain ↔ projects** (ADR-0001). brain читает `<P>/to-brain/*.md` от проектов и кладёт `<P>/from-brain/*.md` для них. См. [README](mailboxes/README.md).
 - [`cross-project-ideas/INDEX.md`](cross-project-ideas/INDEX.md) — индекс pool переносимых идей. Каждая идея — отдельный файл в `ideas/`. Полная инструкция работы — в [README](cross-project-ideas/README.md).
 - [`tech-radar/INDEX.md`](tech-radar/INDEX.md) — статусы технологий (в эксплуатации / на радаре / отвергнуто).
 - [`adr/INDEX.md`](adr/INDEX.md) — cross-project Architecture Decision Records.
@@ -32,10 +35,13 @@ Internal reasoning, commit messages, идентификаторы — English.
 
 ## Какие проекты под управлением
 
-См. `projects/INDEX.md` — там реестр. На момент создания brain_matrica (2026-05-22):
+См. `projects/INDEX.md` — там реестр. На 2026-05-22:
 - **MatricaRMZ** — Electron + Node.js, ERP для ремонтного завода двигателей (прод: 195.161.41.30)
-- **GONBA** — детали уточнить в `projects/GONBA.md` при заполнении
-- **setka** — детали уточнить в `projects/setka.md` при заполнении
+- **GONBA** — Next.js 15 + Payload CMS (прод: гоньба.рф)
+- **setka** — Python 3.12 + Celery + Redis (внутренний)
+- **KARMAN** — React + TypeScript + Express (включён 2026-05-22, отстающий, подтягивается)
+
+Архив 2026-05-22 (мёртвые, исключены из управления): postopus, mikrokredit.
 
 ## Как мыслить на мета-уровне
 
