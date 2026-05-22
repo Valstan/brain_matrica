@@ -10,6 +10,7 @@
 
 | # | Идея | GONBA | MatricaRMZ | setka |
 |---|---|---|---|---|
+| [004](ideas/004-minimalist-ai-docs-2026.md) | **Минимализм AI-docs 2026** — упразднение `DEV_HISTORY` / `DEVELOPMENT_LOG`, их роль покрывает `SESSION_HANDOFF` + Failed approaches + `git log` + ADR. Артефакт эры слабых LLM. | ⚠️ кандидат | ⚠️ кандидат | ⚠️ кандидат |
 | [003](ideas/003-session-handoff.md) | `docs/SESSION_HANDOFF.md` + `/close_session` skill для непрерывности разработки между сессиями (многоэтапные рефакторинги) | ✅ 2026-05-22 | ✅ 2026-05-22 | ❓ |
 | [001](ideas/001-isolated-deploy-ssh-key.md) | Изолированный per-project SSH-deploy-ключ (отдельный `id_ed25519_<proj>_deploy` вместо общего ключа) | ✅ 2026-05-22 | ⚠️ | ✅ 2026-05-22 |
 | [002](ideas/002-ssh-deploy-key-rotation.md) | Периодическая ротация SSH-deploy-ключей с напоминанием от `/start` | ✅ 2026-05-22 (90д) | ❓ | ❓ |

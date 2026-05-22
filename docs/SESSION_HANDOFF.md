@@ -3,68 +3,81 @@
 > Sticky-note для непрерывности meta-сессий. Перезаписывается командой `/close_session`. История через `git log -- docs/SESSION_HANDOFF.md`.
 
 **Status:** ACTIVE
-**Updated:** 2026-05-22 (Claude Opus 4.7 — dispatch + Tier 1 orchestration + первый briefing)
+**Updated:** 2026-05-22 (Claude Opus 4.7 — финал сессии, миграция на другой комп)
 **Branch:** main
 
 ## Текущая нитка
 
-**Пилот dispatch-механизма как асинхронного канала «brain_matrica → проекты».** Инфраструктура собрана (PROTOCOL, INDEX, items, briefings, permissions, project-auditor sub-agent, kill-policy). Первая партия из 7 заявок отправлена. Первый briefing через project-auditor подтвердил value инфры: реестр был неточен через час после создания, нашлась 🔴 security-проблема в GONBA. Зафиксированы решения пользователя по архитектурным вопросам:
-- **`/close_session` — единое имя команды** во всех трёх (setka переименовывает `/finish`)
-- **SESSION_HANDOFF.md — обязательно везде** («нитка между сессиями нужна везде»)
-- **DEV_HISTORY/DEVELOPMENT_LOG — на усмотрение каждого проекта** (в commit'ах уже много инфы); если упраздняют — Failed approaches секция становится критичной
+**Пилот dispatch-механизма + парадигматический сдвиг по структуре docs.** Инфраструктура собрана (PROTOCOL, INDEX, items, briefings, permissions, project-auditor, kill-policy). 7 заявок отправлены. First briefing подтвердил value. Зафиксированы три решения пользователя:
 
-Заявки #0001, #0004, #0006 обновлены с этими решениями. Дальше — **проживать цикл** (заявки → проектные сессии → решения → ✅/⛔ → новые заявки).
+1. **`/close_session` — единое имя команды** во всех трёх проектах (setka переименовывает `/finish`).
+2. **`SESSION_HANDOFF.md` обязателен везде** («нитка между сессиями нужна везде»).
+3. **`DEV_HISTORY` / `DEVELOPMENT_LOG` — артефакт эры слабых LLM**, безопасно упраздняется (записано в pool как **идея #004**). В современной парадигме `git log + SESSION_HANDOFF + PENDING_FOLLOWUPS + ADR` покрывает то же самое.
 
-## Следующий шаг
+## Следующий шаг — продолжение на ДРУГОМ компе
 
-1. **При следующем `/start` — прогнать morning briefing** через project-auditor (теперь он custom subagent: `Agent(subagent_type="project-auditor", prompt="audit D:/GitHubReps/<name>")` × 3 параллельно). Результат сохранить в `dispatch/briefings/morning-2026-XX-XX.md`.
-2. **Проверить применение заявок** — `git log` каждого из трёх репо: ищу пометки `brain_matrica dispatch #NNNN`. Применённые → `✅ done` в `dispatch/INDEX.md`, отклонённые → `⛔ rejected`, переехавшие в архив таблицы.
-3. **Если есть консенсус по #0001** (унификация имени `/close_session` vs `/finish`) — сформулировать конкретную заявку «переименовать в X».
-4. **Если #0007 (🔴 security) применена** — обновить идею #001 в pool с пометкой «применять и к историческим ключам, не только новым деплоям».
-5. **Если setka закрыл `/reliz` big idea MVP** — стоп-лист setka снимается, можно отправлять новые заявки.
+Пользователь закрывает сессию на этом компе, переходит на другой. Все наработки сохранены в brain_matrica (запушено в origin/main). Inbox-from-brain копии в siblings — **uncommitted** (по правилу «не лезть в код-проекты из brain_matrica»), на втором компе их не будет.
+
+**Первое действие на втором компе:**
+
+1. `cd ~/dev/brain_matrica && claude` (или `D:\GitHubReps\brain_matrica\`)
+2. `/start` — теперь содержит шаг **2.5 «Re-deliver inbox-from-brain в проекты»**, который автоматически разложит canonical заявки из `dispatch/items/` в `<проект>/docs/inbox-from-brain/` каждого из трёх sibling repos.
+3. После этого — открыть проектные сессии и обработать заявки.
+
+**Главные «новые наработки» которые ждут проектов:**
+
+| Заявка | Куда | Суть |
+|---|---|---|
+| #0001 | все три | `/close_session` везде. Решено |
+| #0003 | MatricaRMZ | Untracked `brain_matrica/` папка — разобраться |
+| #0004 | setka | SESSION_HANDOFF (обязательно). DEV_HISTORY — на усмотрение, см. идея #004 |
+| #0006 | все три | Failed approaches секция (полезно, не критично) |
+| 🔴 #0007 | GONBA | Security: ключи MatricaRMZ + setka в `authorized_keys` GONBA-сервера |
+| **Идея #004** | pool | Минимализм AI-docs 2026 — кандидат к рассмотрению во всех трёх |
+
+## Состояние очереди (по target проектам)
+
+- **MatricaRMZ:** 3 заявки sent (0001, 0003, 0006) — лимит
+- **GONBA:** 3 заявки sent (0001, 0006, 🔴 0007) — лимит, security override
+- **setka:** 5 заявок sent (0001, 0002, 0004, 0005, 0006) — стартовая партия, превышен лимит. **Стоп-лист**: setka в `deep flow` (MVP big idea, 21 staged file). Никаких новых до закрытия двух текущих + завершения `/reliz` MVP
+
+## Реальные фазы проектов (из first briefing 2026-05-22)
+
+- **MatricaRMZ** — `deep flow` (BOM-refactor 5 релизов, v1.21.3 выпущен, v1.21.4 next)
+- **GONBA** — `between threads` (Media→Я.Диск закрыта 2026-05-22, ADR-0001 → Implemented)
+- **setka** — `deep flow` (big idea «модуль авто-регистрации регионов» MVP, 21 staged file)
 
 ## Контекст
 
 - **Repo:** https://github.com/Valstan/brain_matrica
-- **Local clone:** `D:\GitHubReps\brain_matrica\`
 - **Commits этой сессии:**
-  - [`9efb60c`](https://github.com/Valstan/brain_matrica/commit/9efb60c) — интеграция с тремя проектами + метаданные GONBA/setka
-  - [`f8cdd4c`](https://github.com/Valstan/brain_matrica/commit/f8cdd4c) — dispatch-инфраструктура (PROTOCOL, INDEX, 5 заявок, pending-delivery)
-  - [`6135740`](https://github.com/Valstan/brain_matrica/commit/6135740) — `.claude/settings.json` allow rules для siblings
-  - [`eea0a04`](https://github.com/Valstan/brain_matrica/commit/eea0a04) — Tier 1 (project-auditor, kill-policy, #0006, morning briefing задача)
-  - [`ee617d9`](https://github.com/Valstan/brain_matrica/commit/ee617d9) — первый briefing через smoke-test + #0007 security
+  - [`9efb60c`](https://github.com/Valstan/brain_matrica/commit/9efb60c) — интеграция с тремя проектами + метаданные
+  - [`f8cdd4c`](https://github.com/Valstan/brain_matrica/commit/f8cdd4c) — dispatch-инфраструктура
+  - [`6135740`](https://github.com/Valstan/brain_matrica/commit/6135740) — permission allow rules
+  - [`eea0a04`](https://github.com/Valstan/brain_matrica/commit/eea0a04) — Tier 1 (auditor, kill-policy, #0006, briefing task)
+  - [`ee617d9`](https://github.com/Valstan/brain_matrica/commit/ee617d9) — первый briefing + 🔴 #0007
   - [`e596d53`](https://github.com/Valstan/brain_matrica/commit/e596d53) — handoff в формате /close_session
-  - (этот коммит — апдейт заявок #0001/#0004/#0006 под решения пользователя)
-- **Inbox:** пусто
-- **Pool идей за сессию:** не добавлено новых файлов (есть **кандидат** на #004 — `componentTypeByNomenclatureId` паттерн из MatricaRMZ, см. briefing)
+  - [`09444e7`](https://github.com/Valstan/brain_matrica/commit/09444e7) — #0001/#0004/#0006 под решения пользователя
+  - (этот коммит — идея #004 в pool + finalize)
+- **Pool идей:** +1 за сессию (`004-minimalist-ai-docs-2026.md`)
 
-## Текущее состояние очереди
+## Открытые вопросы
 
-- **MatricaRMZ:** 3 sent (0001, 0003, 0006) — лимит
-- **GONBA:** 3 sent (0001, 0006, 0007 🔴) — лимит, security override допустим
-- **setka:** 5 sent (0001, 0002, 0004, 0005, 0006) — превышен лимит. **Стоп-лист**: setka в `deep flow` (MVP big idea, 21 staged file). Никаких новых до `/reliz` и закрытия двух из текущих.
-
-## Реальные фазы проектов (по first briefing)
-
-| Проект | Фаза | Источник |
-|---|---|---|
-| MatricaRMZ | **deep flow** | BOM-refactor 5 релизов, v1.21.3 выпущен, v1.21.4 next |
-| GONBA | **between threads** | Media→Я.Диск нитка закрыта 2026-05-22 (PR #24-#29 смержены, ADR-0001 → Implemented). Окно для входящих заявок. |
-| setka | **deep flow** | Big idea «модуль авто-регистрации регионов» MVP, 21 staged file, перед `/reliz` |
-
-## Открытые вопросы для пользователя
-
-1. ~~Заявка #0004 — нужен пересмотр.~~ **Закрыто 2026-05-22:** пользователь зафиксировал «SESSION_HANDOFF везде». Заявка #0004 переформулирована — SESSION_HANDOFF обязательно, DEV_HISTORY на усмотрение setka.
-2. **HANDOFF-устаревание во всех трёх** — системная боль паттерна #003. Заявка #0006 (Failed approaches) частично адресует, но **корень** в том что handoff не самообновляется при «нитка дозакрыта внутри сессии». Возможно — идея в pool «handoff обновляется не только при `/close_session`, но и при значимом `git merge` / `git tag` через hook».
-3. **Автоматизация morning briefing** — `/loop 24h` (требует открытой сессии) vs `/schedule "0 9 * * 1-5"` (cron remote, проверить доступность в подписке) vs остаться вручную при `/start`. Решение после недели использования.
+1. **HANDOFF-устаревание во всех трёх** — системная боль паттерна #003. Handoff не самообновляется при «нитка дозакрыта внутри сессии». Возможная следующая итерация — hook на `git merge --no-ff` / `git tag`, который автоматически дёргает обновление SESSION_HANDOFF.
+2. **Автоматизация morning briefing** — после недели использования решить про `/loop 24h` vs `/schedule cron` vs вручную при `/start`.
+3. **Применить идею #004 (минимализм docs)** — кандидат для всех трёх проектов, **но** не одномоментно. После применения #0004 (setka получает SESSION_HANDOFF) + 2-3 ниток на новой структуре → упразднение DEV_HISTORY/DEVELOPMENT_LOG безопасно. Возможна заявка #0008 «архивировать DEV_HISTORY» для каждого проекта отдельно — оценивать осенью 2026.
 
 ## Не забыть (low-priority)
 
-- **Tech-radar стартовое наполнение:** Drizzle (adopt, MatricaRMZ), Payload CMS (adopt, GONBA), Celery+Redis (adopt, setka), pnpm 10 (adopt), pnpm 11 (hold), electron-builder (adopt), Next.js 15 (adopt с caveat'ом про watchdog), Groq llama-3.1 (adopt, setka). Можно в любой свободный момент.
-- **ADR-0001 кандидат:** «brain_matrica ↔ проекты через файловые dispatch без realtime канала». Записать когда устаканится паттерн (после первого «полного цикла» с применёнными заявками).
-- **Идея #004 в pool — кандидат:** `componentTypeByNomenclatureId` header-поле для UI-диагностики рассинхрона данных перед save (origin MatricaRMZ, применимо к EAV-проектам). Записать когда чёткое описание сформирую.
-- **Параллельность как явный паттерн** — пользователь подтвердил, что brain_matrica создан **специально** для параллельной работы (не пауз). Идея в pool «параллельность × N проектов требует жёсткой dispatch-дисциплины» — записать после квартала эксплуатации.
-- **Custom subagent `project-auditor`** подхватится при следующем `/start` Claude Code. Сегодня тестировался через `general-purpose` fallback — отчёт идентичный.
-- **Проверка `.claude/settings.json` на втором компе** — правила в git, должны подхватиться. Если что-то блокируется — расширить allowlist.
-- **Заявка #0001 у GONBA первая для приёма** — GONBA сейчас в `between threads`, и в очереди только 3 заявки (включая 🔴 #0007). Идеальный кандидат «возьмём первую короткую сессию».
-- **MatricaRMZ — 14 stale `claude/*` веток** — мелкий побочный кандидат на чистку при удобном случае.
+- **Tech-radar стартовое наполнение** (Drizzle, Payload, Celery, pnpm 10/11, Next.js 15, Groq) — можно в любой свободный момент.
+- **ADR-0001 кандидат** — «brain_matrica ↔ проекты через файловые dispatch». Записать когда первый цикл с применёнными заявками завершится.
+- **Custom subagent `project-auditor`** подхватится на втором компе при первом `/start` Claude Code (файл в git).
+- **Проверка `.claude/settings.json` на втором компе** — правила должны подхватиться (в git). Если что-то блокируется — расширить allowlist.
+- **MatricaRMZ — 14 stale `claude/*` веток** — мелкий побочный кандидат на чистку.
+- **GONBA — заявки 0001/0006/0007 в inbox-from-brain на этом компе уже исчезли** (clean git status — видимо синхронизация откатила). На втором компе `/start` brain_matrica шаг 2.5 разложит их заново из canonical.
+- **MatricaRMZ — 4 файла в inbox-from-brain uncommitted** на этом компе. На втором компе будут разложены заново из canonical.
+- **setka — 6 файлов uncommitted в inbox-from-brain + 130+ MVP файлов staged**. На втором компе свежий клон, состояние «как в репо main».
+
+## Архитектурное открытие сессии
+
+**inbox-from-brain копии в siblings — это "кэш", не источник правды.** Источник правды — `brain_matrica/dispatch/items/`. На любом компе brain_matrica `/start` шаг 2.5 распределяет актуальные копии. Это снимает зависимость от состояния sibling worktrees между компами.
