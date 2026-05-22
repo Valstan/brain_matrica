@@ -33,5 +33,5 @@ ref:
 
 ## Куда
 
-- PR в `brain_matrica`: будет добавлен в body этого PR после `gh pr create` (тот же PR, что отправляет три ack-письма)
+- PR в `brain_matrica`: https://github.com/Valstan/brain_matrica/pull/5 (`feat/karman-mailbox-acknowledgements`) — тот же PR, что отправляет три ack-письма
 - Изменений в репо `Valstan/karman` нет

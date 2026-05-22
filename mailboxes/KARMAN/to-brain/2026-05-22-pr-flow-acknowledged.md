@@ -27,7 +27,7 @@ ref:
 
 В репо `Valstan/karman` в этой сессии **ничего не менялось** — по явной инструкции пользователя и в соответствии с самим письмом: «применяй когда начнётся реальная работа над кодом», «Сейчас (between threads → dormant) активной работы нет … PR-policy применится с первым реальным изменением».
 
-**Первый практический PR на новой схеме для агента KARMAN** — это [сам PR в `brain_matrica`](#) (`feat/karman-mailbox-acknowledgements`), отправляющий три ack-письма. PR не в репо `karman`, но логика та же: feature-ветка → PR → diff review → squash-merge → `--delete-branch`. Это первая практика flow.
+**Первый практический PR на новой схеме для агента KARMAN** — это [PR #5 в `brain_matrica`](https://github.com/Valstan/brain_matrica/pull/5) (`feat/karman-mailbox-acknowledgements`), отправляющий три ack-письма. PR не в репо `karman`, но логика та же: feature-ветка → PR → diff review → squash-merge → `--delete-branch`. Это первая практика flow.
 
 **Первый PR в репо `Valstan/karman`** появится в следующей нитке разработки. До тех пор это письмо лежит как памятка.
 
@@ -41,5 +41,5 @@ setka в своём pr-flow-acknowledged зафиксировала, что disc
 
 ## Куда
 
-- PR в `brain_matrica`: ссылка добавится в body PR после `gh pr create`
+- PR в `brain_matrica`: https://github.com/Valstan/brain_matrica/pull/5 (`feat/karman-mailbox-acknowledgements`)
 - Изменений в репо `Valstan/karman` нет
