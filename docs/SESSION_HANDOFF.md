@@ -3,81 +3,46 @@
 > Sticky-note для непрерывности meta-сессий. Перезаписывается командой `/close_session`. История через `git log -- docs/SESSION_HANDOFF.md`.
 
 **Status:** ACTIVE
-**Updated:** 2026-05-22 (Claude Opus 4.7 — финал сессии, миграция на другой комп)
+**Updated:** 2026-05-23 (Claude Opus 4.7 — асимметричная mailbox v3)
 **Branch:** main
 
 ## Текущая нитка
 
-**Пилот dispatch-механизма + парадигматический сдвиг по структуре docs.** Инфраструктура собрана (PROTOCOL, INDEX, items, briefings, permissions, project-auditor, kill-policy). 7 заявок отправлены. First briefing подтвердил value. Зафиксированы три решения пользователя:
+**Mailbox v3 — асимметричная схема.** Сессия 2026-05-23 закрыла архитектурную проблему «проекты лезут в чужой репо и пишут в `brain_matrica/mailboxes/`» (кросс-репо коммиты → конфликты, дубли, размытая ответственность). [ADR-0001 v3](../adr/0001-brain-projects-mailboxes.md) формализует: **каждая сторона пишет/коммитит только в свой репо**. Brain пишет в `brain_matrica/mailboxes/<P>/from-brain/`, проект пишет в собственный `<project>/mailbox/to-brain/`. Чтение — через `git pull --ff-only` (read-only).
 
-1. **`/close_session` — единое имя команды** во всех трёх проектах (setka переименовывает `/finish`).
-2. **`SESSION_HANDOFF.md` обязателен везде** («нитка между сессиями нужна везде»).
-3. **`DEV_HISTORY` / `DEVELOPMENT_LOG` — артефакт эры слабых LLM**, безопасно упраздняется (записано в pool как **идея #004**). В современной парадигме `git log + SESSION_HANDOFF + PENDING_FOLLOWUPS + ADR` покрывает то же самое.
+PR [#7](https://github.com/Valstan/brain_matrica/pull/7) merged. 4 директивы (compliance=mandate, urgency=high) разосланы во все проекты: GONBA / MatricaRMZ / setka / KARMAN. Ждём миграции в каждом.
 
-## Следующий шаг — продолжение на ДРУГОМ компе
+## Следующий шаг
 
-Пользователь закрывает сессию на этом компе, переходит на другой. Все наработки сохранены в brain_matrica (запушено в origin/main). Inbox-from-brain копии в siblings — **uncommitted** (по правилу «не лезть в код-проекты из brain_matrica»), на втором компе их не будет.
+**В следующей meta-сессии — приёмка миграции v3 mailbox:**
 
-**Первое действие на втором компе:**
-
-1. `cd ~/dev/brain_matrica && claude` (или `D:\GitHubReps\brain_matrica\`)
-2. `/start` — теперь содержит шаг **2.5 «Re-deliver inbox-from-brain в проекты»**, который автоматически разложит canonical заявки из `dispatch/items/` в `<проект>/docs/inbox-from-brain/` каждого из трёх sibling repos.
-3. После этого — открыть проектные сессии и обработать заявки.
-
-**Главные «новые наработки» которые ждут проектов:**
-
-| Заявка | Куда | Суть |
-|---|---|---|
-| #0001 | все три | `/close_session` везде. Решено |
-| #0003 | MatricaRMZ | Untracked `brain_matrica/` папка — разобраться |
-| #0004 | setka | SESSION_HANDOFF (обязательно). DEV_HISTORY — на усмотрение, см. идея #004 |
-| #0006 | все три | Failed approaches секция (полезно, не критично) |
-| 🔴 #0007 | GONBA | Security: ключи MatricaRMZ + setka в `authorized_keys` GONBA-сервера |
-| **Идея #004** | pool | Минимализм AI-docs 2026 — кандидат к рассмотрению во всех трёх |
-
-## Состояние очереди (по target проектам)
-
-- **MatricaRMZ:** 3 заявки sent (0001, 0003, 0006) — лимит
-- **GONBA:** 3 заявки sent (0001, 0006, 🔴 0007) — лимит, security override
-- **setka:** 5 заявок sent (0001, 0002, 0004, 0005, 0006) — стартовая партия, превышен лимит. **Стоп-лист**: setka в `deep flow` (MVP big idea, 21 staged file). Никаких новых до закрытия двух текущих + завершения `/reliz` MVP
-
-## Реальные фазы проектов (из first briefing 2026-05-22)
-
-- **MatricaRMZ** — `deep flow` (BOM-refactor 5 релизов, v1.21.3 выпущен, v1.21.4 next)
-- **GONBA** — `between threads` (Media→Я.Диск закрыта 2026-05-22, ADR-0001 → Implemented)
-- **setka** — `deep flow` (big idea «модуль авто-регистрации регионов» MVP, 21 staged file)
+1. `cd ../<P> && git pull --ff-only` для каждого из 4 проектов (read-only, как описано в обновлённом `/start` шаге 2.5).
+2. Проверить наличие `<P>/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md` (kind=feedback) от каждого проекта.
+3. Если у проекта мигрировано — заархивировать старые 3 директивы 2026-05-22 (compliance / mailbox-protocol / pr-flow) в `mailboxes/<P>/from-brain/ARCHIVE/` со ссылкой на migration-done feedback. Закоммитить в brain_matrica через PR.
+4. Если проект НЕ мигрировал — пинговать, kill-policy по таймауту (директива mandate просрочена).
+5. После закрытия цикла во всех 4 — пометить `mailboxes/<P>/to-brain/` (старую папку в brain'е) как «v2 archive only» и зафиксировать в pool идею «v3 mailbox опыт перехода» если набралось интересного.
 
 ## Контекст
 
-- **Repo:** https://github.com/Valstan/brain_matrica
-- **Commits этой сессии:**
-  - [`9efb60c`](https://github.com/Valstan/brain_matrica/commit/9efb60c) — интеграция с тремя проектами + метаданные
-  - [`f8cdd4c`](https://github.com/Valstan/brain_matrica/commit/f8cdd4c) — dispatch-инфраструктура
-  - [`6135740`](https://github.com/Valstan/brain_matrica/commit/6135740) — permission allow rules
-  - [`eea0a04`](https://github.com/Valstan/brain_matrica/commit/eea0a04) — Tier 1 (auditor, kill-policy, #0006, briefing task)
-  - [`ee617d9`](https://github.com/Valstan/brain_matrica/commit/ee617d9) — первый briefing + 🔴 #0007
-  - [`e596d53`](https://github.com/Valstan/brain_matrica/commit/e596d53) — handoff в формате /close_session
-  - [`09444e7`](https://github.com/Valstan/brain_matrica/commit/09444e7) — #0001/#0004/#0006 под решения пользователя
-  - (этот коммит — идея #004 в pool + finalize)
-- **Pool идей:** +1 за сессию (`004-minimalist-ai-docs-2026.md`)
+- **Главный коммит:** [`bc4770e`](https://github.com/Valstan/brain_matrica/commit/bc4770e) — v3 asymmetric scheme (522 insertions, 51 deletions)
+- **Merge:** [`222e20c`](https://github.com/Valstan/brain_matrica/commit/222e20c) — PR #7 merged в main
+- **Изменённые источники правды:** [ADR-0001](../adr/0001-brain-projects-mailboxes.md) (+v3), [POSTULATES §I.2](POSTULATES.md), [mailboxes/README.md](../mailboxes/README.md), [.claude/commands/start.md](../.claude/commands/start.md) (шаг 2.5)
+- **4 директивы:** `mailboxes/<P>/from-brain/2026-05-23-mailbox-asymmetry-fix.md` × 4 (одинаковый текст, разный `to:`)
+- **Pool:** без новых идей
+- **Inbox:** пуст
+- **Reset:** в начале сессии — `git restore --staged .` + удаление uncommitted ack-писем GONBA/KARMAN, что были «бардаком» от прежней симметричной схемы; полностью переделали через v3
 
-## Открытые вопросы
+## Открытые вопросы для пользователя
 
-1. **HANDOFF-устаревание во всех трёх** — системная боль паттерна #003. Handoff не самообновляется при «нитка дозакрыта внутри сессии». Возможная следующая итерация — hook на `git merge --no-ff` / `git tag`, который автоматически дёргает обновление SESSION_HANDOFF.
-2. **Автоматизация morning briefing** — после недели использования решить про `/loop 24h` vs `/schedule cron` vs вручную при `/start`.
-3. **Применить идею #004 (минимализм docs)** — кандидат для всех трёх проектов, **но** не одномоментно. После применения #0004 (setka получает SESSION_HANDOFF) + 2-3 ниток на новой структуре → упразднение DEV_HISTORY/DEVELOPMENT_LOG безопасно. Возможна заявка #0008 «архивировать DEV_HISTORY» для каждого проекта отдельно — оценивать осенью 2026.
+1. **Старая папка `mailboxes/<P>/to-brain/`** — оставляем deprecated read-only архивом, или удаляем после успешного migration во всех 4 проектах? Сейчас в ней могут остаться следы старых acknowledgements (зависит от того, что прислали проекты в свои сессии после v3 директивы). Решить когда будем закрывать цикл.
+2. **`.last-seen`** в v3 обновляется brain'ом по фактическому состоянию sibling-репо — но конкретная формула («дата последнего коммита в `<P>/mailbox/to-brain/`» vs «дата последнего тега» vs «git log -1 sibling-репо целиком») в ADR-0001 не зафиксирована. Зафиксировать после первого реального reflection-прохода.
+3. **Архивация ответов проектов** — MVP без неё. Решать когда накопится 10-20 файлов в `<P>/mailbox/to-brain/` у любого проекта.
 
 ## Не забыть (low-priority)
 
-- **Tech-radar стартовое наполнение** (Drizzle, Payload, Celery, pnpm 10/11, Next.js 15, Groq) — можно в любой свободный момент.
-- **ADR-0001 кандидат** — «brain_matrica ↔ проекты через файловые dispatch». Записать когда первый цикл с применёнными заявками завершится.
-- **Custom subagent `project-auditor`** подхватится на втором компе при первом `/start` Claude Code (файл в git).
-- **Проверка `.claude/settings.json` на втором компе** — правила должны подхватиться (в git). Если что-то блокируется — расширить allowlist.
-- **MatricaRMZ — 14 stale `claude/*` веток** — мелкий побочный кандидат на чистку.
-- **GONBA — заявки 0001/0006/0007 в inbox-from-brain на этом компе уже исчезли** (clean git status — видимо синхронизация откатила). На втором компе `/start` brain_matrica шаг 2.5 разложит их заново из canonical.
-- **MatricaRMZ — 4 файла в inbox-from-brain uncommitted** на этом компе. На втором компе будут разложены заново из canonical.
-- **setka — 6 файлов uncommitted в inbox-from-brain + 130+ MVP файлов staged**. На втором компе свежий клон, состояние «как в репо main».
-
-## Архитектурное открытие сессии
-
-**inbox-from-brain копии в siblings — это "кэш", не источник правды.** Источник правды — `brain_matrica/dispatch/items/`. На любом компе brain_matrica `/start` шаг 2.5 распределяет актуальные копии. Это снимает зависимость от состояния sibling worktrees между компами.
+- **4 локальные feature-ветки без origin** на этом компе: `feat/gonba-acknowledgement`, `feat/karman-mailbox-acknowledgements`, `feat/matricarmz-acknowledgement`, `feat/setka-acknowledgement-and-archive` — реликты старой симметричной схемы, безопасно удалить (`git branch -D <name>`). Не сейчас, при следующей чистке.
+- **Tech-radar** — стартовое наполнение (Drizzle, Payload, Celery, pnpm, Next.js 15, Groq) всё ещё не сделано. Когда будет свободная сессия.
+- **Идея #004 «Минимализм AI-docs 2026»** — кандидат во все 4 проекта. Применять не одномоментно; раньше Q3 2026 — преждевременно.
+- **Pool идей сейчас 5 (#001–#005)** — без изменений в этой сессии.
+- **Старая `dispatch/` инфраструктура** (items/, briefings/, PROTOCOL.md) — полностью legacy после v3 mailbox. Кандидат на архивацию в `_archive/dispatch/` когда закроем приёмку миграции v3.
+- **`/start` шаг 2.5** теперь делает read-only sync через `git pull --ff-only` 4 sibling-репо. Если какой-то проект не клонирован локально на компе — шаг пропустит его (есть `test -d ../$proj || continue`).
