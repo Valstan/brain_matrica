@@ -30,9 +30,11 @@
 
 | Проект | Стек | Прод | Статус | Фаза | Файл |
 |---|---|---|---|---|---|
-| **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.1 | active | **deep flow** (BOM-refactor 5 релизов, v1.21.2 next) | [MatricaRMZ.md](MatricaRMZ.md) |
-| **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active | **PoC mode** (Media→Я.Диск, выбор подхода A/B/C) | [GONBA.md](GONBA.md) |
-| **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | **between threads** (VK-рефакторинг 0-5+4b закрыт, big idea «модуль авто-регистрации регионов» ещё не выбран) | [setka.md](setka.md) |
+| **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.3 | active | **deep flow** (BOM-refactor 5 релизов, v1.21.4 next) | [MatricaRMZ.md](MatricaRMZ.md) |
+| **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active | **between threads** (Media→Я.Диск закрыта 2026-05-22, ADR-0001 → Implemented; следующая нитка не выбрана) | [GONBA.md](GONBA.md) |
+| **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | **deep flow** (big idea «модуль авто-регистрации регионов» MVP, 21 staged file, релиз впереди) | [setka.md](setka.md) |
+
+> **Источник фаз:** [`../dispatch/briefings/morning-2026-05-22.md`](../dispatch/briefings/morning-2026-05-22.md) — первый briefing через project-auditor. Обновлять при каждом briefing'е.
 
 ## Как заполнять файл проекта
 
