@@ -3,49 +3,76 @@
 > Sticky-note для непрерывности meta-сессий. Перезаписывается командой `/close_session`. История через `git log -- docs/SESSION_HANDOFF.md`.
 
 **Status:** ACTIVE
-**Updated:** 2026-05-22 (Claude Opus 4.7 session, продолжение инициализации)
+**Updated:** 2026-05-22 (Claude Opus 4.7 session — пилот dispatch-механизма)
 **Branch:** main
 
 ## Текущая нитка
 
-**Завершение интеграционного слоя brain_matrica ↔ три код-проекта.** Базовая структура заложена в первой сессии 2026-05-22 (Sonnet). Во второй сессии 2026-05-22 (Opus) подключены три проекта и заполнены метаданные.
+**Пилот dispatch-механизма как асинхронного канала «brain_matrica → проекты».**
 
-## Что сделано во второй сессии 2026-05-22
+Brain_matrica не может живьём отправлять команды в проекты (нет realtime канала между разными Claude Code сессиями). Но **через файлы** — отлично работает: формулируем заявку как файл с обязательной шапкой-маркером 🧠 «без полного контекста проекта», кладём в `<проект>/docs/inbox-from-brain/`, проектная сессия при `/start` подхватывает.
 
-- ✅ `D:\GitHubReps\MatricaRMZ\CLAUDE.md` — добавлен раздел «Cross-project knowledge base» (после блока «Источники правды», перед «Команды управления сессией»). Изменения unstaged в репо MatricaRMZ — закоммитить при следующей MatricaRMZ-сессии.
-- ✅ `D:\GitHubReps\GONBA\CLAUDE.md` — старая строка про `C:\Users\valstan\.claude\cross-project-ideas\` в таблице «Источники правды» заменена на строку про `../brain_matrica/`. Изменения unstaged в GONBA — закоммитить при следующей GONBA-сессии.
-- ⚠️ `D:\GitHubReps\setka\CLAUDE.md` — **не отредактирован** (auto-mode classifier Claude Code заблокировал правку как scope escalation, даже после явного согласия пользователя через AskUserQuestion). Готовый snippet положен в [`docs/integration-snippets/setka-CLAUDE.md.snippet.md`](integration-snippets/setka-CLAUDE.md.snippet.md) — применить при следующей setka-сессии. После применения — удалить snippet.
-- ✅ `~/.claude/cross-project-ideas/INDEX.md` — заменён на редирект (содержимое legacy сохранено в `ideas/*.md` как замороженный архив).
-- ✅ `README.md` brain_matrica — добавлен раздел «Локальный путь и интеграция с проектами» с обоснованием выбора `../brain_matrica/` относительного пути и инструкцией fallback / override.
-- ✅ `projects/GONBA.md` — заполнен реальными данными (Next.js 15 + Payload CMS + PostgreSQL, прод `https://гоньба.рф/`, активная нитка Media→Я.Диск).
-- ✅ `projects/setka.md` — заполнен (Python 3.12 + Celery + Redis + VK API, `setka-prod`, рефакторинг VK-уведомлений завершён 2026-05-21). Спорное помечено `(уточнить)`: framework setka, public URL.
-- ✅ `projects/INDEX.md` — обновлены строки GONBA и setka реальным стеком и URL.
+## Что сделано в этой сессии 2026-05-22 (Opus продолжение)
 
-## Следующий шаг (первый в следующей brain_matrica-сессии)
+### Аудит трёх проектов
 
-1. **Проверить применение snippet'а в setka.** При следующей setka-сессии пользователь применит `docs/integration-snippets/setka-CLAUDE.md.snippet.md`, после чего snippet удаляется. В brain_matrica `/start` проверь — если snippet ещё на месте, напомни пользователю применить.
-2. **Уточнить «(уточнить)» в `projects/setka.md`:** какой framework (FastAPI? Flask?), есть ли public URL.
-3. **Рассмотреть стратегический вопрос:** унифицировать `SESSION_HANDOFF + /close_session` (MatricaRMZ, GONBA) vs `DEV_HISTORY + /finish` (setka), или оставить разные подходы. Если унифицировать — это **идея №004** в pool.
-4. **Подумать про auto-discovery brain_matrica.** Сейчас принят относительный путь `../brain_matrica/`. Если у пользователя другая раскладка на втором компе — нужен fallback (через `~/.claude/CLAUDE.md` local override). Подтвердить рабочесть на втором компе при первой сессии оттуда.
+- **MatricaRMZ:** active, **deep flow** — BOM-refactor (5 релизов), v1.21.2 next. Не отвлекать побочными заявками.
+- **GONBA:** active, **PoC mode** — Media→Я.Диск, выбор подхода A/B/C. Свежая большая работа за 20-22 мая (13+ PR).
+- **setka:** active, **between threads** — VK-рефакторинг 0-5+4b закрыт, big idea «модуль авто-регистрации регионов» в PENDING ещё не выбран. **Окно для побочных заявок.**
+
+Реестр в `projects/INDEX.md` обновлён — добавлена колонка «фаза» с описанием в шапке.
+
+### Dispatch-инфраструктура
+
+- `dispatch/PROTOCOL.md` — описание механизма: lifecycle, шапка-маркер 🧠, лимиты (3 активных на проект, 30 дней живёт), что НЕ делать.
+- `dispatch/INDEX.md` — таблица заявок со статусами (🟡pending / 🟢approved / 📤sent / 📦pending-delivery / ✅done / ⛔rejected / 🕒superseded).
+- `dispatch/items/0001-0005.md` — пять заявок (canonical version).
+- `dispatch/pending-delivery/setka-0005-log-path-env-var.md` — fallback когда auto-classifier блокирует прямую доставку в sibling repo.
+
+### Пять заявок отправлены
+
+| # | Target | Краткое | Доставка |
+|---|---|---|---|
+| 0001 | все три | Единое имя `/close_session` vs `/finish` | 📤 sent в три проекта |
+| 0002 | setka | Ссылка на brain_matrica в `CLAUDE.md` (snippet) | 📤 sent |
+| 0003 | MatricaRMZ | Untracked `brain_matrica/` папка — разобраться | 📤 sent |
+| 0004 | setka | Применить SESSION_HANDOFF паттерн (идея #003) | 📤 sent |
+| 0005 | setka | `LOG_PATH` env var вместо hardcoded | 📦 pending-delivery (auto-classifier заблокировал прямой write в setka) |
+
+### Каждый проект получил `docs/inbox-from-brain/` с README
+
+README объясняет: что это, что НЕ делать (НЕ выполнять автоматически), что делать (рассмотреть, записать решение, удалить файл).
+
+### Прочее
+
+- `docs/integration-snippets/setka-CLAUDE.md.snippet.md` удалён — заменён заявкой 0002 в новом формате.
+
+## Открытая нагрузка очереди
+
+- **MatricaRMZ:** 2 sent (0001, 0003)
+- **GONBA:** 1 sent (0001)
+- **setka:** 3 sent (0001, 0002, 0004) + 1 pending-delivery (0005) = 4 активных, **близко к лимиту** (3 по протоколу). Новые заявки в setka **придержать** до закрытия двух текущих.
+
+## Следующий шаг (следующая brain_matrica-сессия)
+
+1. **Проверить состояние заявок.** Прочитать свежие коммиты MatricaRMZ / GONBA / setka — есть ли коммиты с пометкой `brain_matrica dispatch #NNNN`. Обновить статусы в `dispatch/INDEX.md`: применённые → `✅ done`, отклонённые → `⛔ rejected`, отложенные — без изменений.
+2. **Pending-delivery setka/0005** — если пользователь побывал в setka-сессии и переложил вручную, заявка станет 📤 sent. Если нет — напомнить.
+3. **Если есть консенсус по #0001** (унификация имени `/close_session` vs `/finish`) — сформулировать заявку #0006 «переименовать в выбранное» с конкретным именем.
+4. **Перенести done/rejected заявки** из активной таблицы в раздел «Архив» в `dispatch/INDEX.md`.
+5. **Если setka получила свободу** (заявки 0002/0004/0005 закрыты) — рассмотреть, не пора ли поднять big idea «модуль авто-регистрации регионов» как **активную нитку** (с её согласия, не нашим решением). Это смена фазы `between threads → deep flow`.
 
 ## Контекст
 
-- **Repo:** https://github.com/Valstan/brain_matrica (private)
-- **Local clone:** `D:\GitHubReps\brain_matrica\` (Windows)
-- **Соседние проекты:**
-  - MatricaRMZ: https://github.com/Valstan/MatricaRMZ → `D:\GitHubReps\MatricaRMZ\`
-  - GONBA (Gonba): https://github.com/Valstan/Gonba → `D:\GitHubReps\GONBA\`
-  - setka: https://github.com/Valstan/setka → `D:\GitHubReps\setka\`
+- **Repo:** https://github.com/Valstan/brain_matrica
+- **Local clone:** `D:\GitHubReps\brain_matrica\`
+- **Commits сессии:**
+  - 9efb60c — интеграция с тремя проектами + метаданные GONBA/setka
+  - (этот коммит — dispatch-инфраструктура + 5 заявок)
 
-## Открытые вопросы
+## Открытые вопросы / не забыть
 
-1. **Auto-mode classifier vs setka/CLAUDE.md:** Если хотим иметь возможность править CLAUDE.md соседних проектов из brain_matrica-сессии — нужно добавить разрешение в `D:\GitHubReps\brain_matrica\.claude\settings.json` (или global `~/.claude/settings.json`). Пока решено через snippet-механизм (workaround, не идеальный).
-2. **Унификация подходов** к session continuity (см. «следующий шаг» #3).
-3. **Стартовое наполнение tech-radar** — Drizzle ORM (adopt, MatricaRMZ), electron-builder (adopt, MatricaRMZ), Payload CMS (adopt, GONBA), Celery+Redis (adopt, setka), pnpm 10 (adopt), pnpm 11 (hold, несовместим). Это можно сделать в любой свободной сессии — не блокер.
-
-## Не забыть (low-priority)
-
-- При первой возникшей надпроектной дилемме («Bun vs Node для нового проекта», «Drizzle vs Prisma для нового», «monorepo vs polyrepo») — записать ADR-0001 в `adr/`.
-- Когда snippet setka применится и удалится — обновить этот handoff (убрать пункт про setka из «следующий шаг» #1).
-- Когда `~/.claude/cross-project-ideas/` будет полностью неиспользуем (через месяц-два) — оставить только редирект, удалить `ideas/*.md` чтобы не путал.
-- Кейс `MatricaRMZ.worktrees/` рядом с MatricaRMZ в `D:\GitHubReps\` — относительный путь `../brain_matrica/` отсюда тоже работает (это `D:\GitHubReps\brain_matrica\`), проверить при следующей сессии в worktree.
+1. **Auto-classifier политика для siblings.** Каждая новая сессия в brain_matrica будет заново «учиться» что можно писать в siblings. Стоит ли добавить в `.claude/settings.json` brain_matrica explicit permission для `docs/inbox-from-brain/` всех трёх проектов? Иначе fallback на pending-delivery будет регулярным.
+2. **Auto-cleanup.** При следующем `/start` проверить: остались ли в `docs/inbox-from-brain/` заявки старше 30 дней. Если да — переместить в `superseded` и оповестить.
+3. **Идея для tech-radar:** записать pnpm 10 (adopt) vs pnpm 11 (hold), Drizzle (adopt), Payload CMS (adopt), Celery+Redis (adopt). Не блокер — можно в любой свободный момент.
+4. **ADR-0001 кандидат:** «Между проектами идёт коммуникация через файловые dispatch / inbox, без realtime канала. Альтернативы: GitHub Issues, API, MCP-сервер.» — записать когда устаканится паттерн.
+5. **Параллельный режим работы как явный паттерн.** Видно по git log 21-22 мая: пользователь жонглировал тремя проектами одновременно. Brain_matrica — инструмент именно для этого режима. Идея в pool «параллельность требует жёсткой SESSION_HANDOFF дисциплины» — записать позже, когда подтвердится на длинной дистанции.

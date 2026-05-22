@@ -1,12 +1,20 @@
 # Projects Registry
 
-Реестр всех проектов под управлением. Обновлять при значимых событиях (новый прод-URL, смена стека, заморозка/возобновление).
+Реестр всех проектов под управлением. Обновлять при значимых событиях (новый прод-URL, смена стека, заморозка/возобновление, смена фазы).
 
-| Проект | Стек | Прод | Статус | Файл |
-|---|---|---|---|---|
-| **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.1 | active | [MatricaRMZ.md](MatricaRMZ.md) |
-| **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active (Media→Я.Диск миграция) | [GONBA.md](GONBA.md) |
-| **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | [setka.md](setka.md) |
+## Колонка «фаза» — как читать
+
+- **deep flow** — внутри многоэтапной нитки, есть детальный план на N релизов, не отвлекать побочными заявками
+- **PoC mode** — выбираем подход / готовим proof-of-concept перед большим этапом
+- **between threads** — текущая нитка только что закрыта, следующая ещё не выбрана; **окно** для техдолгов и побочных задач
+- **paused** — сознательная заморозка (ждём решения / приоритет на другом)
+- **dormant** — фактически не разрабатывается > 60 дней без явного решения «пауза»
+
+| Проект | Стек | Прод | Статус | Фаза | Файл |
+|---|---|---|---|---|---|
+| **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.1 | active | **deep flow** (BOM-refactor 5 релизов, v1.21.2 next) | [MatricaRMZ.md](MatricaRMZ.md) |
+| **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active | **PoC mode** (Media→Я.Диск, выбор подхода A/B/C) | [GONBA.md](GONBA.md) |
+| **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | **between threads** (VK-рефакторинг 0-5+4b закрыт, big idea «модуль авто-регистрации регионов» ещё не выбран) | [setka.md](setka.md) |
 
 ## Как заполнять файл проекта
 
