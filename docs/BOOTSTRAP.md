@@ -88,6 +88,14 @@ SSH aliases для прода (`~/.ssh/config`):
 - §III.12 — все клоны в одной WORKSPACE_ROOT
 - §III.13 — имя локальной папки = имя GitHub-репо (case-sensitive)
 
+## Первичный bootstrap проектных нейронок
+
+После клонирования проектов проектные нейронки (Claude Code в каждом репо) **не знают** про brain_matrica автоматически. Первый раз — пользователь скармливает им copy-paste промпт.
+
+См. [PROJECT-BOOTSTRAP-PROMPTS.md](PROJECT-BOOTSTRAP-PROMPTS.md) — готовые промпты для каждого проекта + шаблон для будущих.
+
+После первого bootstrap нейронка обновляет свой /start чтобы проверять mailbox автоматически. Этот шаг — разовый.
+
 ## Weekly audit
 
 Раз в неделю brain пробегается auditor-проходом по всем проектам и **обновляет** в `projects/<P>.md`:
