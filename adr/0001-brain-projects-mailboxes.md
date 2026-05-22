@@ -1,8 +1,13 @@
 # ADR 0001: brain ↔ projects communication via mailboxes
 
-**Date:** 2026-05-22
+**Date:** 2026-05-22 (v1), 2026-05-22 (v2 — добавлен compliance field)
 **Status:** Accepted
 **Applies to:** brain_matrica, MatricaRMZ, GONBA, setka, KARMAN (и все будущие проекты под управлением)
+
+## Changelog
+
+- **v2 (2026-05-22):** добавлено поле frontmatter `compliance` (suggest / recommend / mandate) для писем с действиями (kind=idea, kind=directive). Описание реакции проекта в зависимости от уровня. См. секцию [Compliance levels](#compliance-levels) ниже.
+- **v1 (2026-05-22):** первоначальный протокол mailbox + DRAFTS/ARCHIVE + kind/urgency.
 
 ## Context
 
@@ -48,18 +53,67 @@ to: <PROJECT> | brain
 date: YYYY-MM-DD
 topic: short subject line
 kind: idea | directive | question | feedback | report
+compliance: suggest | recommend | mandate   # required для kind=idea и kind=directive
 urgency: low | normal | high
 links: [...]      # опционально: ссылки на ideas / inbox / adr / per-project docs
 ref: [...]        # опционально: имена файлов писем на которые отвечаем
 ---
 ```
 
-`kind`:
-- **idea** — «попробуй, если интересно» (рекомендация)
-- **directive** — «сделай X» (обязательное к выполнению)
-- **question** — «ответь когда сможешь»
-- **feedback** — «вот результат / что вышло / что не зашло»
+`kind` (что это):
+- **idea** — предложение, рассмотри
+- **directive** — указание выполнить
+- **question** — ответь когда сможешь
+- **feedback** — вот результат / что вышло / что не зашло
 - **report** — статус, ответа не требует
+
+`urgency` (когда обратить внимание):
+- **low** — без срочности
+- **normal** — обычная очередь
+- **high** — обязательно поднять в /start даже если письмо одно
+
+См. [Compliance levels](#compliance-levels) ниже.
+
+### Compliance levels
+
+Это **отдельная ось** от `kind` и `urgency`: насколько обязательно выполнение. Соответствует RFC 2119 (MAY/SHOULD/MUST). Три уровня:
+
+| compliance | RFC 2119 | Реакция получателя |
+|---|---|---|
+| **suggest** | MAY | «Подумай, может пригодится.» Получатель свободен применить, отложить или молча проигнорировать. Если решил — приветствуется feedback в обратном направлении, но не обязателен. |
+| **recommend** | SHOULD | «Применить, адаптировать под проект. Если не подходит — аргументировать.» Получатель **обязан обработать**: либо применить (возможно с адаптацией), либо написать обоснование отказа в обратный mailbox. Молча игнорировать нельзя. |
+| **mandate** | MUST | «Безусловное выполнение.» Получатель **обязан применить**. Если технически невозможно — эскалация в обратный mailbox с указанием конкретного блокера (kind=feedback, urgency=high). Применение должно произойти, отказ — только в случае реального технического барьера. |
+
+**Required для:** `kind: idea` и `kind: directive` (где есть что выполнять).
+**Не нужно для:** `kind: question`, `kind: feedback`, `kind: report` (там нет действия).
+
+**Retroactive правило** для писем без поля `compliance` (отправленные до v2 этого ADR):
+- `kind: directive` без compliance → читать как `mandate`
+- `kind: idea` без compliance → читать как `recommend`
+
+### Adaptation в recommend-режиме
+
+«Адаптация под проект» в recommend означает:
+- Применить **идею целиком**, но реализация может отличаться от описания
+- Например, идея «изолированный SSH deploy-key» — реализация может быть `id_ed25519_<proj>_deploy` или `id_ed25519_<env>_<proj>_deploy` или через ssh-agent forwarding — конкретика на усмотрение проекта
+- Если адаптация настолько глубока что «теряет суть идеи» — это уже отказ, нужно аргументировать
+
+Аргументация отказа в recommend = файл `to-brain/YYYY-MM-DD-rejected-<slug>.md`:
+```yaml
+---
+from: <PROJECT>
+to: brain
+date: YYYY-MM-DD
+topic: Отказ от <slug>
+kind: feedback
+compliance: suggest    # отказ — не директива, brain свободен переоткрыть тему
+urgency: normal
+ref: [<original-letter>]
+---
+
+# Почему не применили
+... 2-3 предложения почему. Не философия — конкретный технический / контекстный блокер.
+```
 
 ### Правила
 
