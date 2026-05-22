@@ -32,7 +32,7 @@ Per-project ADRs живут в `<project>/docs/adr/` если проект их 
 
 | # | Title | Status | Applies to | File |
 |---|---|---|---|---|
-| _(заполняется)_ | | | | |
+| 0001 | brain ↔ projects communication via mailboxes | Accepted | brain_matrica, MatricaRMZ, GONBA, setka, KARMAN | [0001-brain-projects-mailboxes.md](0001-brain-projects-mailboxes.md) |
 
 ## Когда писать ADR
 

@@ -26,15 +26,33 @@
 
 ## Архив
 
-Замороженные / закрытые проекты — в `projects/_archive/<name>.md` (с датой архивации и причиной). Активная таблица — только то что **сейчас** на радаре. Сейчас архив пуст.
+Замороженные / закрытые проекты — в `projects/_archive/<name>.md` (с датой архивации и причиной). Активная таблица — только то что **сейчас** на радаре.
+
+**Архив (2026-05-22):**
+- [postopus](_archive/postopus.md) — мёртвый, не разрабатывается, исключён из управления (GitHub-репо не удалён)
+- [mikrokredit](_archive/mikrokredit.md) — мёртвый (последний коммит 2025-10-11), исключён из управления (GitHub-репо не удалён)
 
 | Проект | Стек | Прод | Статус | Фаза | Файл |
 |---|---|---|---|---|---|
 | **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.3 | active | **deep flow** (BOM-refactor 5 релизов, v1.21.4 next) | [MatricaRMZ.md](MatricaRMZ.md) |
 | **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active | **between threads** (Media→Я.Диск закрыта 2026-05-22, ADR-0001 → Implemented; следующая нитка не выбрана) | [GONBA.md](GONBA.md) |
 | **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | **deep flow** (big idea «модуль авто-регистрации регионов» MVP, 21 staged file, релиз впереди) | [setka.md](setka.md) |
+| **KARMAN** | React 18 + TS + Vite + AntD + Express 5 + Postgres, npm | nginx + `karman-api.service`, URL уточнить | active (отстающий) | **between threads** → близко к dormant (последний коммит 2026-05-20, активной нитки нет, подтягивается технологически) | [KARMAN.md](KARMAN.md) |
 
 > **Источник фаз:** [`../dispatch/briefings/morning-2026-05-22.md`](../dispatch/briefings/morning-2026-05-22.md) — первый briefing через project-auditor. Обновлять при каждом briefing'е.
+
+## Схема расположения проектов на компе
+
+См. [BOOTSTRAP.md](../docs/BOOTSTRAP.md). Кратко:
+
+- Все клоны живут в **одной родительской папке** на каждом компе (`WORKSPACE_ROOT`). Имя клона = имя GitHub-репо (case-sensitive).
+- Допустимые `WORKSPACE_ROOT` варианты: `C:\GitHubProjects\`, `D:\GitHubReps\`, `~/dev/`, `~/GitHubProjects/`. brain_matrica при `/start` определяет фактический root через `..` от своего собственного расположения.
+- brain_matrica — это **тоже клон в `WORKSPACE_ROOT`**, не отдельная папка. Это гарантирует что относительные пути `../<project>/` всегда работают.
+
+Текущий снимок (компьютер @valstan, 2026-05-22):
+- `WORKSPACE_ROOT = C:\GitHubProjects\`
+- Активные клоны: `brain_matrica/`, `MatricaRMZ/`, `Gonba/`, `setka/`, `karman/`
+- Архивные (можно удалить с диска): `postopus/`, `mikrokredit/`
 
 ## Как заполнять файл проекта
 
