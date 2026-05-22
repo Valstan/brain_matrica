@@ -8,7 +8,12 @@
 
 ## Текущая нитка
 
-**Пилот dispatch-механизма как асинхронного канала «brain_matrica → проекты».** Инфраструктура собрана (PROTOCOL, INDEX, items, briefings, permissions, project-auditor sub-agent, kill-policy). Первая партия из 7 заявок отправлена. Первый briefing через project-auditor подтвердил value инфры: реестр был неточен через час после создания, нашлась 🔴 security-проблема в GONBA. Дальше — **проживать цикл** (заявки → проектные сессии → решения → ✅/⛔ → новые заявки).
+**Пилот dispatch-механизма как асинхронного канала «brain_matrica → проекты».** Инфраструктура собрана (PROTOCOL, INDEX, items, briefings, permissions, project-auditor sub-agent, kill-policy). Первая партия из 7 заявок отправлена. Первый briefing через project-auditor подтвердил value инфры: реестр был неточен через час после создания, нашлась 🔴 security-проблема в GONBA. Зафиксированы решения пользователя по архитектурным вопросам:
+- **`/close_session` — единое имя команды** во всех трёх (setka переименовывает `/finish`)
+- **SESSION_HANDOFF.md — обязательно везде** («нитка между сессиями нужна везде»)
+- **DEV_HISTORY/DEVELOPMENT_LOG — на усмотрение каждого проекта** (в commit'ах уже много инфы); если упраздняют — Failed approaches секция становится критичной
+
+Заявки #0001, #0004, #0006 обновлены с этими решениями. Дальше — **проживать цикл** (заявки → проектные сессии → решения → ✅/⛔ → новые заявки).
 
 ## Следующий шаг
 
@@ -28,6 +33,8 @@
   - [`6135740`](https://github.com/Valstan/brain_matrica/commit/6135740) — `.claude/settings.json` allow rules для siblings
   - [`eea0a04`](https://github.com/Valstan/brain_matrica/commit/eea0a04) — Tier 1 (project-auditor, kill-policy, #0006, morning briefing задача)
   - [`ee617d9`](https://github.com/Valstan/brain_matrica/commit/ee617d9) — первый briefing через smoke-test + #0007 security
+  - [`e596d53`](https://github.com/Valstan/brain_matrica/commit/e596d53) — handoff в формате /close_session
+  - (этот коммит — апдейт заявок #0001/#0004/#0006 под решения пользователя)
 - **Inbox:** пусто
 - **Pool идей за сессию:** не добавлено новых файлов (есть **кандидат** на #004 — `componentTypeByNomenclatureId` паттерн из MatricaRMZ, см. briefing)
 
@@ -47,7 +54,7 @@
 
 ## Открытые вопросы для пользователя
 
-1. **Заявка #0004 — нужен пересмотр.** First briefing показал: паттерн setka (DEV_HISTORY-newest-on-top) скорее **образцовый**, MatricaRMZ/GONBA должны взять у setka, а не наоборот. Текущая формулировка #0004 предлагает обратное. Нужно либо отозвать #0004 (status → 🕒 superseded), либо переадресовать (заявка для GONBA «оценить DEV_HISTORY паттерн setka»).
+1. ~~Заявка #0004 — нужен пересмотр.~~ **Закрыто 2026-05-22:** пользователь зафиксировал «SESSION_HANDOFF везде». Заявка #0004 переформулирована — SESSION_HANDOFF обязательно, DEV_HISTORY на усмотрение setka.
 2. **HANDOFF-устаревание во всех трёх** — системная боль паттерна #003. Заявка #0006 (Failed approaches) частично адресует, но **корень** в том что handoff не самообновляется при «нитка дозакрыта внутри сессии». Возможно — идея в pool «handoff обновляется не только при `/close_session`, но и при значимом `git merge` / `git tag` через hook».
 3. **Автоматизация morning briefing** — `/loop 24h` (требует открытой сессии) vs `/schedule "0 9 * * 1-5"` (cron remote, проверить доступность в подписке) vs остаться вручную при `/start`. Решение после недели использования.
 
