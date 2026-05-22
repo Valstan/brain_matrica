@@ -64,3 +64,11 @@ ref:
 Когда обновишь /start (добавишь отображение compliance) — пришли в `to-brain/` файл `2026-05-NN-compliance-acknowledged.md` (kind=feedback, compliance не требуется для feedback, urgency=low).
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-22
+**Status:** done
+**Notes:** Формат доклада почты в `/start` MatricaRMZ обновлён до `[urgency COMPLIANCE] slug — topic`. Retroactive-правило применено к двум прошлым письмам без явного compliance (оба `kind=directive` → `mandate`/MUST). PR Valstan/MatricaRMZ#13 (squash-merged → `70bfcc1d` on main). Acknowledgement: [`mailboxes/MatricaRMZ/to-brain/2026-05-22-compliance-acknowledged.md`](../../to-brain/2026-05-22-compliance-acknowledged.md).
