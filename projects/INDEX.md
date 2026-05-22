@@ -5,8 +5,8 @@
 | Проект | Стек | Прод | Статус | Файл |
 |---|---|---|---|---|
 | **MatricaRMZ** | Electron + Node + PostgreSQL + Drizzle, монорепо pnpm | https://195.161.41.30/ v1.21.1 | active | [MatricaRMZ.md](MatricaRMZ.md) |
-| **GONBA** | (уточнить при заполнении) | (уточнить) | active | [GONBA.md](GONBA.md) |
-| **setka** | (уточнить при заполнении) | (уточнить) | active | [setka.md](setka.md) |
+| **GONBA** | Next.js 15 + Payload CMS + PostgreSQL, pnpm 10 | https://гоньба.рф/ (rolling, без релизов) | active (Media→Я.Диск миграция) | [GONBA.md](GONBA.md) |
+| **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | [setka.md](setka.md) |
 
 ## Как заполнять файл проекта
 

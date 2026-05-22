@@ -3,86 +3,49 @@
 > Sticky-note для непрерывности meta-сессий. Перезаписывается командой `/close_session`. История через `git log -- docs/SESSION_HANDOFF.md`.
 
 **Status:** ACTIVE
-**Updated:** 2026-05-22 (Claude sonnet 4.7 session, инициализация brain_matrica)
+**Updated:** 2026-05-22 (Claude Opus 4.7 session, продолжение инициализации)
 **Branch:** main
 
 ## Текущая нитка
 
-**Инициализация brain_matrica и миграция кросс-проектной инфраструктуры из `~/.claude/` в этот git-репо.** Repo создан 2026-05-22 на GitHub (`Valstan/brain_matrica`, private). Базовая структура заложена (см. секцию «Что уже сделано» ниже). Осталось:
+**Завершение интеграционного слоя brain_matrica ↔ три код-проекта.** Базовая структура заложена в первой сессии 2026-05-22 (Sonnet). Во второй сессии 2026-05-22 (Opus) подключены три проекта и заполнены метаданные.
 
-1. Подключить три проекта (MatricaRMZ, GONBA, setka) к brain_matrica через ссылки в их CLAUDE.md.
-2. Заполнить реальные метаданные в `projects/GONBA.md` и `projects/setka.md` (сейчас плейсхолдеры).
-3. Перевести pool идей в источник истины: `~/.claude/cross-project-ideas/` → редирект-README указывающий на этот repo.
-4. Подумать про auto-update: как `/start` других проектов будет узнавать локальный путь до brain_matrica на каждом компе (env var или относительный путь).
+## Что сделано во второй сессии 2026-05-22
 
-## Следующий шаг (первый в новой brain_matrica-сессии)
+- ✅ `D:\GitHubReps\MatricaRMZ\CLAUDE.md` — добавлен раздел «Cross-project knowledge base» (после блока «Источники правды», перед «Команды управления сессией»). Изменения unstaged в репо MatricaRMZ — закоммитить при следующей MatricaRMZ-сессии.
+- ✅ `D:\GitHubReps\GONBA\CLAUDE.md` — старая строка про `C:\Users\valstan\.claude\cross-project-ideas\` в таблице «Источники правды» заменена на строку про `../brain_matrica/`. Изменения unstaged в GONBA — закоммитить при следующей GONBA-сессии.
+- ⚠️ `D:\GitHubReps\setka\CLAUDE.md` — **не отредактирован** (auto-mode classifier Claude Code заблокировал правку как scope escalation, даже после явного согласия пользователя через AskUserQuestion). Готовый snippet положен в [`docs/integration-snippets/setka-CLAUDE.md.snippet.md`](integration-snippets/setka-CLAUDE.md.snippet.md) — применить при следующей setka-сессии. После применения — удалить snippet.
+- ✅ `~/.claude/cross-project-ideas/INDEX.md` — заменён на редирект (содержимое legacy сохранено в `ideas/*.md` как замороженный архив).
+- ✅ `README.md` brain_matrica — добавлен раздел «Локальный путь и интеграция с проектами» с обоснованием выбора `../brain_matrica/` относительного пути и инструкцией fallback / override.
+- ✅ `projects/GONBA.md` — заполнен реальными данными (Next.js 15 + Payload CMS + PostgreSQL, прод `https://гоньба.рф/`, активная нитка Media→Я.Диск).
+- ✅ `projects/setka.md` — заполнен (Python 3.12 + Celery + Redis + VK API, `setka-prod`, рефакторинг VK-уведомлений завершён 2026-05-21). Спорное помечено `(уточнить)`: framework setka, public URL.
+- ✅ `projects/INDEX.md` — обновлены строки GONBA и setka реальным стеком и URL.
 
-**Соединить три проекта с brain_matrica.** Конкретно:
+## Следующий шаг (первый в следующей brain_matrica-сессии)
 
-1. **MatricaRMZ:** в `D:\GitHubReps\MatricaRMZ\CLAUDE.md` добавить раздел «Cross-project knowledge base» с ссылкой:
-   ```markdown
-   ## Cross-project knowledge base
-   Кросс-проектный pool идей, tech-radar, реестр проектов — в приватном git-репо `brain_matrica` (https://github.com/Valstan/brain_matrica). Локально: `../brain_matrica` (или `D:\GitHubReps\brain_matrica\` на Windows).
-
-   При предложении переносимых улучшений / новых идей читай `<абс путь>/brain_matrica/cross-project-ideas/INDEX.md`. Новые идеи добавляй туда (открой brain_matrica отдельной сессией).
-   ```
-
-2. **GONBA:** в его `CLAUDE.md` — аналогичный раздел. Локальный путь подсказать или искать через ENV.
-
-3. **setka:** то же самое.
-
-4. **`~/.claude/cross-project-ideas/INDEX.md`:** заменить содержимое на редирект-README:
-   ```markdown
-   # Moved
-   Pool переехал в git-репо `brain_matrica`. Источник истины: https://github.com/Valstan/brain_matrica/tree/main/cross-project-ideas
-   Локально: `D:\GitHubReps\brain_matrica\cross-project-ideas\` (или `~/dev/brain_matrica/cross-project-ideas/`).
-   Старые файлы в `ideas/` оставлены для истории — синхронизируется через git, не через эту папку.
-   ```
-
-5. **Заполнить `projects/GONBA.md` и `projects/setka.md`** — спросить пользователя метаданные или сделать в каждой соответствующей сессии:
-   - Repo URL, local clone path, SSH alias prod
-   - Стек, прод-URL, owner
-   - Текущая фаза разработки
-
-6. **Решить вопрос с локальным путём** к brain_matrica на разных компах. Варианты:
-   - **Hard-coded абсолютный путь** — простой, но ломается при смене компа. CLAUDE.md делает per-machine override.
-   - **Относительный путь** `../brain_matrica` — работает если все репо в одной папке (стандартный `~/dev/` или `D:\GitHubReps\`).
-   - **ENV var** `BRAIN_MATRICA_PATH` — гибко, но требует настройки на каждом компе.
-   - **Авто-поиск** — поиск по типичным локациям (`./brain_matrica`, `../brain_matrica`, `~/dev/brain_matrica`, `~/.claude/brain_matrica`). Hack, но юзер-френдли.
-
-   **Рекомендация для первой реализации:** относительный путь `../brain_matrica` (работает если все клонированы в одну родительскую папку). Документировать в CLAUDE.md каждого проекта.
+1. **Проверить применение snippet'а в setka.** При следующей setka-сессии пользователь применит `docs/integration-snippets/setka-CLAUDE.md.snippet.md`, после чего snippet удаляется. В brain_matrica `/start` проверь — если snippet ещё на месте, напомни пользователю применить.
+2. **Уточнить «(уточнить)» в `projects/setka.md`:** какой framework (FastAPI? Flask?), есть ли public URL.
+3. **Рассмотреть стратегический вопрос:** унифицировать `SESSION_HANDOFF + /close_session` (MatricaRMZ, GONBA) vs `DEV_HISTORY + /finish` (setka), или оставить разные подходы. Если унифицировать — это **идея №004** в pool.
+4. **Подумать про auto-discovery brain_matrica.** Сейчас принят относительный путь `../brain_matrica/`. Если у пользователя другая раскладка на втором компе — нужен fallback (через `~/.claude/CLAUDE.md` local override). Подтвердить рабочесть на втором компе при первой сессии оттуда.
 
 ## Контекст
 
 - **Repo:** https://github.com/Valstan/brain_matrica (private)
 - **Local clone:** `D:\GitHubReps\brain_matrica\` (Windows)
-- **Создано:** 2026-05-22 в MatricaRMZ-сессии (история: см. `docs/SESSION_HANDOFF.md` в MatricaRMZ на ту же дату)
-- **Текущее состояние pool идей:** 3 идеи (001-003) скопированы из `~/.claude/cross-project-ideas/`
-- **Реестр проектов:** MatricaRMZ заполнен с реальными данными; GONBA, setka — плейсхолдеры
+- **Соседние проекты:**
+  - MatricaRMZ: https://github.com/Valstan/MatricaRMZ → `D:\GitHubReps\MatricaRMZ\`
+  - GONBA (Gonba): https://github.com/Valstan/Gonba → `D:\GitHubReps\GONBA\`
+  - setka: https://github.com/Valstan/setka → `D:\GitHubReps\setka\`
 
-## Что уже сделано (этим инициализационным commit'ом)
+## Открытые вопросы
 
-- ✅ Repo создан на GitHub, склонирован локально
-- ✅ `CLAUDE.md` — инструкции работы с meta-репо
-- ✅ `README.md` — общее описание
-- ✅ `projects/` — `INDEX.md`, `_template.md`, `MatricaRMZ.md` (реальные данные), `GONBA.md`, `setka.md` (плейсхолдеры)
-- ✅ `cross-project-ideas/` — `README.md`, `INDEX.md`, 3 файла идей скопированы
-- ✅ `tech-radar/` — `INDEX.md` (пустой, формат описан)
-- ✅ `adr/` — `INDEX.md` (пустой, формат описан)
-- ✅ `inbox/` — `INDEX.md` (пустой, формат описан)
-- ✅ `.claude/commands/start.md` — мета-адаптация
-- ✅ `.claude/commands/close_session.md` — мета-адаптация
-- ✅ `docs/SESSION_HANDOFF.md` (этот файл)
-
-## Открытые вопросы для пользователя
-
-1. Какой путь к brain_matrica на втором компе пользователя? Нужно для решения вопроса локального пути в CLAUDE.md проектов.
-2. Заполнить `projects/GONBA.md` и `projects/setka.md` — сейчас в соседних проектах или сначала собрать минимум метаданных?
-3. Идея для tech-radar: что **уже сейчас** актуально для записи как стартовое наполнение? (Drizzle ORM в эксплуатации, electron-builder в эксплуатации, etc.) Или дождаться когда естественно возникнет?
+1. **Auto-mode classifier vs setka/CLAUDE.md:** Если хотим иметь возможность править CLAUDE.md соседних проектов из brain_matrica-сессии — нужно добавить разрешение в `D:\GitHubReps\brain_matrica\.claude\settings.json` (или global `~/.claude/settings.json`). Пока решено через snippet-механизм (workaround, не идеальный).
+2. **Унификация подходов** к session continuity (см. «следующий шаг» #3).
+3. **Стартовое наполнение tech-radar** — Drizzle ORM (adopt, MatricaRMZ), electron-builder (adopt, MatricaRMZ), Payload CMS (adopt, GONBA), Celery+Redis (adopt, setka), pnpm 10 (adopt), pnpm 11 (hold, несовместим). Это можно сделать в любой свободной сессии — не блокер.
 
 ## Не забыть (low-priority)
 
-- В CLAUDE.md MatricaRMZ хорошо бы пояснить: «Phase 1 миграции Directories→Nomenclature и Phase 2.x миграции warehouse_locations — это **per-project** stratagems, в brain_matrica не дублируются».
-- После того как pool переедет полностью — можно удалить `~/.claude/cross-project-ideas/ideas/*.md` оставив только редирект README. Но не торопись: пока пользователь не привык — пусть оба места работают.
-- Когда появится первая «надпроектная» проблема (типа «выбрать между Bun и Node для нового проекта») — это будет первый адекватный ADR для записи в `adr/`.
-- Подумать про идею auto-discovery brain_matrica на другом компе через `~/.claude/settings.json` env (`BRAIN_MATRICA_PATH` глобально).
+- При первой возникшей надпроектной дилемме («Bun vs Node для нового проекта», «Drizzle vs Prisma для нового», «monorepo vs polyrepo») — записать ADR-0001 в `adr/`.
+- Когда snippet setka применится и удалится — обновить этот handoff (убрать пункт про setka из «следующий шаг» #1).
+- Когда `~/.claude/cross-project-ideas/` будет полностью неиспользуем (через месяц-два) — оставить только редирект, удалить `ideas/*.md` чтобы не путал.
+- Кейс `MatricaRMZ.worktrees/` рядом с MatricaRMZ в `D:\GitHubReps\` — относительный путь `../brain_matrica/` отсюда тоже работает (это `D:\GitHubReps\brain_matrica\`), проверить при следующей сессии в worktree.
