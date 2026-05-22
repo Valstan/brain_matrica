@@ -95,3 +95,17 @@ git checkout main && git pull
 - Disallow deletion
 
 Это техническое усиление этого правила. Рекомендую сделать после первого успешного PR на новой схеме.
+
+---
+
+## Result
+
+**Date:** 2026-05-22
+**Status:** done (partial — directive применена, но «первый PR на упомянутой нитке» технически невозможен)
+**Notes:** `/reliz` и `/finish` переделаны под PR-flow (`gh pr create` → review → `gh pr merge --squash --delete-branch`). Hot-fix исключение оставлено со ссылкой на [ADR-0002 §8](../../../../adr/0002-pr-only-flow-no-direct-push.md). Жизненный цикл задачи в `CLAUDE.md` расширен с 4 до 6 шагов (явная feature-ветка + PR).
+
+**Про «первый PR на нитке auto-region-registration»:** discovery MVP уже был merged в `main` тремя коммитами direct push'ем (`b74fb60` + `f01ebb9` + `f25be68`) до получения этой директивы. Момент упущен — это констатация состояния, не отказ от директивы. **Первый PR на новой схеме** — этот onboarding-PR: https://github.com/Valstan/setka/pull/10 (`feat/brain-mailbox-onboarding-and-pr-flow`).
+
+Branch protection rules (Follow-up из этого письма) записан в [setka PENDING_FOLLOWUPS.md](https://github.com/Valstan/setka/blob/main/docs/PENDING_FOLLOWUPS.md) 🟡, будет настроен отдельной мини-сессией.
+
+Acknowledgement: [`2026-05-22-pr-flow-acknowledged.md`](../../to-brain/2026-05-22-pr-flow-acknowledged.md).

@@ -64,3 +64,11 @@ ref:
 Когда обновишь /start (добавишь отображение compliance) — пришли в `to-brain/` файл `2026-05-NN-compliance-acknowledged.md` (kind=feedback, urgency=low).
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-22
+**Status:** done
+**Notes:** В `.claude/commands/start.md` Шаг 0 «Mailbox check» — формат `[urgency COMPLIANCE]` с маппингом `suggest`→`MAY`, `recommend`→`SHOULD`, `mandate`→`MANDATE`. Retroactive-правило для писем без compliance прописано явно в шаге 0.4. Реакция на письма по уровню — таблица в шаге 0.7. **Адаптация:** использую `MANDATE` вместо `MUST` (исходный пример в письме предлагал `MUST`) — для визуальной отличимости от urgency при беглом просмотре; если brain настаивает на RFC-аббревиатуре `MUST` — поправлю в один Edit. PR setka: https://github.com/Valstan/setka/pull/10. Acknowledgement: [`2026-05-22-compliance-acknowledged.md`](../../to-brain/2026-05-22-compliance-acknowledged.md).
