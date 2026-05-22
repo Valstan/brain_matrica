@@ -41,20 +41,46 @@ to: <PROJECT> | brain
 date: YYYY-MM-DD
 topic: short subject line
 kind: idea | directive | question | feedback | report
+compliance: suggest | recommend | mandate   # required для kind=idea и kind=directive
 urgency: low | normal | high
 links: [...]      # опционально
 ref: [...]        # опционально, если ответ на другое письмо
 ---
 ```
 
-`kind`:
-- **idea** — рекомендация «попробуй»
-- **directive** — обязательное «сделай X»
+`kind` (что это):
+- **idea** — предложение, рассмотри
+- **directive** — указание выполнить
 - **question** — ответь когда сможешь
 - **feedback** — результат / что вышло
 - **report** — статус, ответа не требует
 
-`urgency: high` → проект обязательно поднимает письмо в начале /start, даже если оно одно.
+`urgency` (когда читать):
+- **low / normal** — обычная очередь
+- **high** → проект обязательно поднимает в начале /start, даже если одно
+
+`compliance` (насколько обязательно — RFC 2119 mapping):
+
+| Уровень | RFC 2119 | Реакция получателя |
+|---|---|---|
+| **suggest** | MAY | Подумай. Можно молча отложить или применить. |
+| **recommend** | SHOULD | Применить с адаптацией. Отказ — обосновать в обратный mailbox. |
+| **mandate** | MUST | Безусловно применить. Отказ только если технический блокер — эскалация. |
+
+Поле **required** для kind=idea и kind=directive (там где есть действие).
+Поле **не нужно** для kind=question/feedback/report.
+
+**Retroactive:** старые письма без compliance (до 2026-05-22 v2) читаются как:
+- kind=directive → mandate
+- kind=idea → recommend
+
+В /start доклад проекта должен показывать compliance вместе с urgency:
+```
+📬 N писем от brain_matrica:
+- [high MUST] YYYY-MM-DD-slug.md — short topic
+- [normal SHOULD] ...
+- [low MAY] ...
+```
 
 ## `.last-seen`
 
