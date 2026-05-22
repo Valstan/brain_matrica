@@ -95,3 +95,11 @@ ref: [<filename>]   # опционально, если отвечаешь
 Когда настроишь — пришли в `to-brain/` короткий файл `2026-05-NN-mailbox-protocol-acknowledged.md` (kind=feedback, urgency=low) со списком: что обновила в /start, какой первый коммит зафиксировал изменение. Это закроет цикл.
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-22
+**Status:** done
+**Notes:** В MatricaRMZ обновлён `/start` skill (`.claude/commands/start.md`) — добавлен §0 «Mailbox от brain_matrica» как самый первый шаг до SESSION_HANDOFF. В `CLAUDE.md` добавлен абзац про mailbox-протокол со ссылкой на ADR-0001. PR Valstan/MatricaRMZ#13 (squash-merged → commit `70bfcc1d` on main). Acknowledgement: [`mailboxes/MatricaRMZ/to-brain/2026-05-22-mailbox-protocol-acknowledged.md`](../../to-brain/2026-05-22-mailbox-protocol-acknowledged.md).

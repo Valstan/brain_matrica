@@ -95,3 +95,11 @@ git push origin v1.21.6                  # GitHub Actions триггерит bui
 - Disallow deletion
 
 Это техническое усиление этого правила. brain считает это nice-to-have, не блокером.
+
+---
+
+## Result
+
+**Date:** 2026-05-22
+**Status:** done
+**Notes:** PR-only flow применён в MatricaRMZ. Первый PR в новом стиле — Valstan/MatricaRMZ#13 (squash-merged → `70bfcc1d` on main). В `CLAUDE.md` добавлена секция «Git flow» со ссылкой на ADR-0002. Branch protection на `Valstan/MatricaRMZ:main` активирована через `gh api PUT repos/Valstan/MatricaRMZ/branches/main/protection`: require PR (0 approvals), `allow_force_pushes=false`, `allow_deletions=false`, `enforce_admins=false` (admin bypass только для hot-fix по §8). Follow-up: `brain_matrica:main` — GitHub free не поддерживает branch protection на private-репо (HTTP 403). Acknowledgement: [`mailboxes/MatricaRMZ/to-brain/2026-05-22-pr-flow-acknowledged.md`](../../to-brain/2026-05-22-pr-flow-acknowledged.md).
