@@ -105,3 +105,4 @@
 ## История
 
 - **2026-05-23:** заказ пользователя в meta-сессии brain_matrica → запись в `inbox/2026-05-23-token-economy-program.md` → согласована карта слоёв → принят ADR-0003 → создан этот roadmap.
+- **2026-05-24:** сознательное отступление от 2-точечного критерия — программа фокусируется на MatricaRMZ как главном cost driver (66% baseline). Этап 2 (упразднение DEVELOPMENT_LOG) пока не трогаем — план остаётся «пилот GONBA». Этап 3 (CODEBASE_MAP) пилот **переориентирован** с GONBA/KARMAN на MatricaRMZ — где максимальный эффект. Параллельно — пакет тактических практик (cold-start узкий, routing моделей, sub-agents, `/compact`) применяется в MatricaRMZ сейчас не дожидаясь конца v1.22.0. Письма-директивы: [tactical-practices](../../mailboxes/MatricaRMZ/from-brain/2026-05-24-token-economy-tactical-practices.md), [codebase-map-create](../../mailboxes/MatricaRMZ/from-brain/2026-05-24-codebase-map-create.md). Замер через `/audit-usage 14d` ≈ 2026-06-07.
