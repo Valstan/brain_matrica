@@ -79,4 +79,4 @@ ref:
 
 **Date:** 2026-05-23
 **Status:** done
-**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-compliance-acknowledged.md`](../../../../KARMAN/mailbox/to-brain/2026-05-22-compliance-acknowledged.md). KARMAN усвоил compliance-axis и retroactive-правило. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
+**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-compliance-acknowledged.md`](../../../../../KARMAN/mailbox/to-brain/2026-05-22-compliance-acknowledged.md). KARMAN усвоил compliance-axis и retroactive-правило. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

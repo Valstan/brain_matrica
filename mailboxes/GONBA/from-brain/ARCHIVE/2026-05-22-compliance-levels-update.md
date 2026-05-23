@@ -71,4 +71,4 @@ ref:
 
 **Date:** 2026-05-23
 **Status:** done
-**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md`](../../../../GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md). `/start` GONBA отображает compliance вместе с urgency; retroactive-правило применено к старым письмам. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#) после v3-миграции.
+**Notes:** Подтверждено в [`GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md`](../../../../../GONBA/mailbox/to-brain/2026-05-22-compliance-acknowledged.md). `/start` GONBA отображает compliance вместе с urgency; retroactive-правило применено к старым письмам. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9) после v3-миграции.

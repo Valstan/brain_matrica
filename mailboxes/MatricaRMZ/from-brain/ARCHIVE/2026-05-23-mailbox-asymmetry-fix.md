@@ -106,4 +106,4 @@ ref:
 
 **Date:** 2026-05-23
 **Status:** done
-**Notes:** Подтверждено в [`MatricaRMZ/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md). Создана `mailbox/to-brain/`, перенесены 3 ack'и, /start skill обновлён под v3. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
+**Notes:** Подтверждено в [`MatricaRMZ/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../../MatricaRMZ/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md). Создана `mailbox/to-brain/`, перенесены 3 ack'и, /start skill обновлён под v3. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

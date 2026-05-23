@@ -101,4 +101,4 @@ ref: [<filename>]   # опционально, если отвечаешь
 
 **Date:** 2026-05-23
 **Status:** superseded
-**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md`](../../../../KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md). Симметричная схема (запись из проекта в `brain_matrica/mailboxes/`) отменена директивой `2026-05-23-mailbox-asymmetry-fix.md` (v3). Финальный протокол — асимметричный (ADR-0001 v3). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
+**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md`](../../../../../KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md). Симметричная схема (запись из проекта в `brain_matrica/mailboxes/`) отменена директивой `2026-05-23-mailbox-asymmetry-fix.md` (v3). Финальный протокол — асимметричный (ADR-0001 v3). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

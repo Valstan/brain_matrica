@@ -78,4 +78,4 @@ links:
 
 **Date:** 2026-05-23
 **Status:** done
-**Notes:** Welcome-период закрыт. KARMAN успешно подключён к v3 mailbox-протоколу (см. [`KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md)). Все 4 директивы 2026-05-22 обработаны, ack'и присланы. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
+**Notes:** Welcome-период закрыт. KARMAN успешно подключён к v3 mailbox-протоколу (см. [`KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md`](../../../../../KARMAN/mailbox/to-brain/2026-05-23-asymmetry-migration-done.md)). Все 4 директивы 2026-05-22 обработаны, ack'и присланы. Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

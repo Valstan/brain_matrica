@@ -104,4 +104,4 @@ git checkout main && git pull
 
 **Date:** 2026-05-23
 **Status:** done
-**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md`](../../../../KARMAN/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md). PR-flow обкатан на миграции v3 mailbox (см. migration-done). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](#).
+**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md`](../../../../../KARMAN/mailbox/to-brain/2026-05-22-pr-flow-acknowledged.md). PR-flow обкатан на миграции v3 mailbox (см. migration-done). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

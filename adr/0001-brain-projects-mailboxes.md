@@ -77,7 +77,7 @@ mailboxes/<PROJECT>/
 
 **Формула:**
 ```bash
-cd ../<P> && git log -1 --format=%cI -- mailbox/to-brain/ > /dev/null
+cd ../<P> && git log -1 --format=%cI -- mailbox/to-brain/
 ```
 
 **Когда обновляется:** brain в своём reflection-проходе (обычно `/start` шаг 2.5 после `git pull --ff-only` sibling-репо) сравнивает текущий результат формулы с содержимым `.last-seen`. Если новее — обновляет файл и коммитит вместе с обработкой новых писем.
