@@ -58,6 +58,62 @@ cd ../$proj && git log -1 --format=%cI -- mailbox/to-brain/
 
 Обработка писем (форвард в pool, ack-письма в `mailboxes/<P>/from-brain/`, архивация в `from-brain/ARCHIVE/`, обновление `.last-seen`) — делается в **brain_matrica** через PR (ADR-0002).
 
+## 2.6. Auto-archive ack'нутых писем (consensus-safe)
+
+После сканирования `<P>/mailbox/to-brain/` — для **каждого** прочитанного ack-письма попытайся найти соответствующий оригинал в `mailboxes/<P>/from-brain/` (не в `ARCHIVE/`) и подвинуть его в `ARCHIVE/` с заполнением секции `## Result`.
+
+### Логика matching
+
+Сначала по `ref:` в frontmatter ack-письма (наивысший приоритет):
+
+```yaml
+---
+from: <PROJECT>
+to: brain
+kind: feedback
+ref:
+  - 2026-05-23-isolate-ssh-deploy-key   # slug оригинала без .md
+---
+```
+
+Если `ref:` есть и указывает на файл в `mailboxes/<P>/from-brain/` (не ARCHIVE) — это однозначный match.
+
+Если `ref:` отсутствует — fallback по slug в имени файла:
+- ack-письмо `2026-05-25-pr-flow-acknowledged.md` → ищу `*-pr-flow-*.md` (по slug-середине) в `from-brain/`
+- ack-письмо `2026-05-25-ssh-deploy-key-isolated.md` → ищу `*-ssh-deploy-key-*.md`
+
+Логика fuzzy-match: вырежи дату (`YYYY-MM-DD-`) и `-acknowledged.md` / `-done.md` / `-applied.md` / `-isolated.md` суффикс — получишь slug-core. Сматчи с slug-core оригинала.
+
+### Когда **не** двигать (conservative defaults)
+
+- **0 матчей** в `from-brain/` — пропусти, доложи пользователю «не нашёл оригинал для ack-письма X» (может быть письмо от проекта по своей инициативе, не ответ).
+- **≥2 матча** — пропусти, доложи «неоднозначный match», пусть пользователь решит вручную.
+- **`ref:` указывает на несуществующий файл** — пропусти, доложи «битый ref в ack-письме X».
+- **Оригинал уже в `ARCHIVE/`** — ничего не делай, всё уже архивировано (повторный ack).
+
+### Что записать в Result
+
+Дописать в конец оригинала **перед** перемещением:
+
+```markdown
+---
+
+## Result
+
+**Date:** YYYY-MM-DD (дата ack-письма)
+**Status:** acknowledged | done | partially-done | rejected   ← из ack-письма kind / контента
+**Notes:** <1-2 строки выжимки из ack-письма>
+**Acknowledgement:** [`<P>/mailbox/to-brain/<ack-file>.md`](../../<P>/mailbox/to-brain/<ack-file>.md)
+```
+
+Затем `git mv` оригинал в `from-brain/ARCHIVE/`.
+
+### Важно
+
+- **Только перемещение, не удаление.** `git mv`, не `rm`.
+- **Никогда не пишу в проектный репо.** Ack-письмо остаётся в `<P>/mailbox/to-brain/` как было (по v3.1 asymmetry).
+- **Все изменения коммитятся одним PR с обработкой почты этой meta-сессии.**
+
 ## 3. Снапшоты проектов (опционально)
 
 Если в этой meta-сессии планируется работа с конкретными проектами — сходи в их репо (read-only):
