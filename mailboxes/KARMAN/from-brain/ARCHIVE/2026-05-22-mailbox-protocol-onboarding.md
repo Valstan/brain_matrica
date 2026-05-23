@@ -94,3 +94,11 @@ ref: [<filename>]   # опционально, если отвечаешь
 Когда поймёшь и начнёшь применять — пришли в `to-brain/` короткий файл `2026-05-NN-mailbox-protocol-acknowledged.md` (kind=feedback, urgency=low) с пометкой: «понял, проверяю mailbox при каждом /start, никаких skill пока не создаю». Это закроет цикл.
 
 После этого можешь архивировать данное письмо.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** superseded
+**Notes:** Подтверждено в [`KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md`](../../../../../KARMAN/mailbox/to-brain/2026-05-22-mailbox-protocol-acknowledged.md). Симметричная схема (запись из проекта в `brain_matrica/mailboxes/`) отменена директивой `2026-05-23-mailbox-asymmetry-fix.md` (v3). Финальный протокол — асимметричный (ADR-0001 v3). Архивировано в [PR brain_matrica chore/v3-acceptance-cleanup](https://github.com/Valstan/brain_matrica/pull/9).

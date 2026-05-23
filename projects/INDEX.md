@@ -39,7 +39,7 @@
 | **setka** | Python 3.12 + Celery + Redis, VK API | внутренний (нет public URL?) | active | **deep flow** (big idea «модуль авто-регистрации регионов» MVP, 21 staged file, релиз впереди) | [setka.md](setka.md) |
 | **KARMAN** | React 18 + TS + Vite + AntD + Express 5 + Postgres, npm | nginx + `karman-api.service`, URL уточнить | active (отстающий) | **between threads** → близко к dormant (последний коммит 2026-05-20, активной нитки нет, подтягивается технологически) | [KARMAN.md](KARMAN.md) |
 
-> **Источник фаз:** [`../dispatch/briefings/morning-2026-05-22.md`](../dispatch/briefings/morning-2026-05-22.md) — первый briefing через project-auditor. Обновлять при каждом briefing'е.
+> **Источник фаз (исторический):** [`_archive/dispatch/briefings/morning-2026-05-22.md`](../_archive/dispatch/briefings/morning-2026-05-22.md) — единственный briefing project-auditor (до v3 mailbox). С 2026-05-23 фазы обновляются по результатам приёмки писем `<P>/mailbox/to-brain/` в каждой meta-сессии.
 
 ## Схема расположения проектов на компе
 
