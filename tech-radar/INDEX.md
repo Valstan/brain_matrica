@@ -18,11 +18,44 @@
 - **tools** — инструменты разработки (linters, formatters, IDEs)
 - **ai** — AI/LLM инструменты
 
-## Таблица (формируется по мере наполнения)
+## Таблица
 
 | Tool | Category | Ring | Used in | Notes | File |
 |---|---|---|---|---|---|
-| _(заполняется при первой работе с brain_matrica)_ | | | | | |
+| **Drizzle ORM** | frameworks (db) | adopt | MatricaRMZ | TS ORM поверх node-postgres, миграции в SQL | [drizzle.md](tools/drizzle.md) |
+| **Payload CMS** | frameworks (cms) | adopt | GONBA | Headless CMS, schema=код, self-hosted | [payload-cms.md](tools/payload-cms.md) |
+| **Celery** | frameworks (task queue) | adopt | setka | Python task queue + Redis broker | [celery.md](tools/celery.md) |
+| **pnpm** | runtime (pkg manager) | adopt | MatricaRMZ, GONBA | Симлинки + workspaces, строже npm | [pnpm.md](tools/pnpm.md) |
+| **Next.js 15** | frameworks (web) | adopt | GONBA | App Router + RSC, async `cookies()/headers()` | [nextjs-15.md](tools/nextjs-15.md) |
+| **Groq** | ai (inference) | assess | — | Быстрый LLM inference на LPU, не пробовали | [groq.md](tools/groq.md) |
+
+## Формат файла
+
+Один файл = одна технология (`tools/<slug>.md`). Компактный (~20 строк):
+
+```markdown
+# <Tool name>
+
+**Category:** <category>
+**Ring:** adopt | trial | assess | hold
+**Used in:** <projects or —>
+**First adopted:** <approx date or note>
+
+## What
+1-2 строки описание.
+
+## Why
+Что даёт, почему выбрали.
+
+## Alternatives considered
+Что рассматривали, почему не выбрали.
+
+## Notes
+Pitfalls / lessons по мере накопления.
+
+## References
+Официальная дока, релевантные ADRs.
+```
 
 ## Workflow
 
