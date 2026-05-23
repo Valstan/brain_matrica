@@ -73,4 +73,5 @@ GitHub Action secret хранит **только** этот изолирован
 
 - **setka**: ключ был изолирован сразу (с самого начала проекта).
 - **GONBA**: ключ был общий с MatricaRMZ. В сессии 2026-05-22 изолирован — `id_ed25519_gonba_deploy`. Старый общий ключ убран из authorized_keys на GONBA-сервере.
-- **MatricaRMZ**: всё ещё на общем `id_ed25519`. Предлагать применить тот же подход — но только в его сессии, чтобы не сломать его CI вслепую.
+- **MatricaRMZ**: всё ещё на общем `id_ed25519`. 2026-05-23 brain направил директиву в [`mailboxes/MatricaRMZ/from-brain/2026-05-23-isolate-ssh-deploy-key.md`](../../mailboxes/MatricaRMZ/from-brain/2026-05-23-isolate-ssh-deploy-key.md) (compliance=recommend) — применить в окне между релизами BOM-refactor.
+- **KARMAN**: применимо (есть прод-сервер + `karman-api.service`), не оценено в сессии проекта. ⚠️ кандидат.
