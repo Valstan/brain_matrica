@@ -28,6 +28,7 @@
 | **pnpm** | runtime (pkg manager) | adopt | MatricaRMZ, GONBA | Симлинки + workspaces, строже npm | [pnpm.md](tools/pnpm.md) |
 | **Next.js 15** | frameworks (web) | adopt | GONBA | App Router + RSC, async `cookies()/headers()` | [nextjs-15.md](tools/nextjs-15.md) |
 | **Groq** | ai (inference) | assess | — | Быстрый LLM inference на LPU, не пробовали | [groq.md](tools/groq.md) |
+| **ccusage** | ai (monitoring) | trial | brain_matrica | CLI агрегатор расходов Claude Code из локальных jsonl-логов; источник для `/audit-usage` | [ccusage.md](tools/ccusage.md) |
 
 ## Формат файла
 
