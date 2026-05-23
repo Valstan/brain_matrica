@@ -91,7 +91,8 @@ SESSION_HANDOFF ссылается на пункт в PENDING_FOLLOWUPS — не
 |---|---|---|---|
 | MatricaRMZ | ✅ применено | 2026-05-22 | Pilot. Файл `docs/SESSION_HANDOFF.md`, skill `/close_session`, расширен `/start` шагом 0, директива в CLAUDE.md «планы создавать в docs/plans/». |
 | GONBA | ✅ применено | 2026-05-22 | Перенесено из MatricaRMZ. Файл `docs/SESSION_HANDOFF.md` создан с активной ниткой «Media → Я.Диск», skill `/close_session` в `.claude/commands/`, `/start` расширен шагом 0, CLAUDE.md обновлён (источники правды + lifecycle + директива про `docs/plans/`), создан `docs/plans/README.md`. |
-| setka | ❓ | — | Применимо: рефакторинги тоже. Предложить в следующей сессии setka. |
+| setka | ⚠️ применимо, не применено | 2026-05-23 | Pool-фиксация: применимо (есть `DEV_HISTORY.md`, нитки, многоэтапные рефакторинги). Brain директиву не отправлял — взять в работу когда у setka будет окно между большими нитками (текущая «модуль авто-регистрации регионов» — deep flow, не отвлекать). |
+| KARMAN | ⚠️ применимо, не применено | 2026-05-23 | Pool-фиксация: применимо. KARMAN сейчас в between threads → close to dormant, нет ничего из `docs/` — отличное окно чтобы заложить SESSION_HANDOFF до старта следующей нитки. Brain директиву не отправлял (low priority до пробуждения проекта). |
 
 ## Как переносить в новый проект
 

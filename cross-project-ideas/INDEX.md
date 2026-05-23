@@ -10,11 +10,12 @@
 
 | # | Идея | GONBA | MatricaRMZ | setka | KARMAN |
 |---|---|---|---|---|---|
-| [005](ideas/005-weekly-environment-audit.md) | **Weekly environment audit** — раз в неделю project-auditor сверяет реальный стек/env проекта с тем, что зафиксировано в `projects/<P>.md`, расхождения шлёт в `to-brain/` | ❓ | ❓ | ❓ | ❓ |
 | [004](ideas/004-minimalist-ai-docs-2026.md) | **Минимализм AI-docs 2026** — упразднение `DEV_HISTORY` / `DEVELOPMENT_LOG`, их роль покрывает `SESSION_HANDOFF` + Failed approaches + `git log` + ADR. Артефакт эры слабых LLM. | ⚠️ кандидат | ⚠️ кандидат | ⚠️ кандидат | ⚠️ кандидат |
-| [003](ideas/003-session-handoff.md) | `docs/SESSION_HANDOFF.md` + `/close_session` skill для непрерывности разработки между сессиями (многоэтапные рефакторинги) | ✅ 2026-05-22 | ✅ 2026-05-22 | ❓ | ⚠️ кандидат (нет ничего из docs) |
-| [001](ideas/001-isolated-deploy-ssh-key.md) | Изолированный per-project SSH-deploy-ключ (отдельный `id_ed25519_<proj>_deploy` вместо общего ключа) | ✅ 2026-05-22 | ⚠️ | ✅ 2026-05-22 | ❓ |
-| [002](ideas/002-ssh-deploy-key-rotation.md) | Периодическая ротация SSH-deploy-ключей с напоминанием от `/start` | ✅ 2026-05-22 (90д) | ❓ | ❓ | ❓ |
+| [003](ideas/003-session-handoff.md) | `docs/SESSION_HANDOFF.md` + `/close_session` skill для непрерывности разработки между сессиями (многоэтапные рефакторинги) | ✅ 2026-05-22 | ✅ 2026-05-22 | ⚠️ кандидат | ⚠️ кандидат (нет ничего из docs) |
+| [001](ideas/001-isolated-deploy-ssh-key.md) | Изолированный per-project SSH-deploy-ключ (отдельный `id_ed25519_<proj>_deploy` вместо общего ключа) | ✅ 2026-05-22 | ⚠️ директива 2026-05-23 | ✅ 2026-05-22 | ⚠️ кандидат |
+| [002](ideas/002-ssh-deploy-key-rotation.md) | Периодическая ротация SSH-deploy-ключей с напоминанием от `/start` | ✅ 2026-05-22 (90д) | ❓ (после #001) | ⚠️ кандидат | ❓ (после #001) |
+
+> Идея #005 (Weekly environment audit) перенесена в [`docs/plans/weekly-environment-audit.md`](../docs/plans/weekly-environment-audit.md) 2026-05-23 — признано: это инфра-план brain_matrica, не переносимая идея между проектами.
 
 ---
 
