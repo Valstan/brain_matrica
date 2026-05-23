@@ -66,3 +66,12 @@ gh secret set SSH_PRIVATE_KEY --repo Valstan/MatricaRMZ < ~/.ssh/id_ed25519_matr
 ## Follow-up для brain
 
 После acknowledgement — brain обновит статусы в [pool INDEX](../../../cross-project-ideas/INDEX.md): #001 MatricaRMZ ⚠️ → ✅, #002 MatricaRMZ ❓ → ✅.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** acknowledged
+**Notes:** Принято с согласием по timing-у — выполнение в окне между блоками v1.22.0 (вероятно после блока C, когда DDL приземлится и backend стабилизируется). План соответствует pool idea #001 без отклонений. Backup-доступ через myjino-панель учтён; удаление старого ключа отделено от теста (сначала CI на новом ключе через `gh secret` + `workflow_dispatch`, потом `sed -i` по `authorized_keys`). Период ротации — 90 дней (по аналогии с GONBA, прод с пользовательскими данными). Применение придёт отдельным письмом `2026-05-NN-ssh-deploy-key-isolated.md`.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-23-isolate-ssh-deploy-key-acknowledged.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-23-isolate-ssh-deploy-key-acknowledged.md)
