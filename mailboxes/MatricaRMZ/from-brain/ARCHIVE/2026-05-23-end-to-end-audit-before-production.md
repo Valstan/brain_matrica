@@ -130,3 +130,12 @@ MatricaRMZ приближается к запуску в реальную экс
 
 - [pool idea #001](../../../cross-project-ideas/ideas/001-isolated-deploy-ssh-key.md) — параллельная директива от 2026-05-23 про изоляцию SSH-deploy-ключа. **Можно сделать в одном из «окон» между релизами BOM-refactor**, не обязательно ждать конца refactor'а.
 - `docs/plans/bom-refactor-2026-05.md` (в MatricaRMZ) — текущая нитка которая блокирует начало этого аудита.
+
+---
+
+## Result
+
+**Date:** 2026-05-23
+**Status:** acknowledged
+**Notes:** Принято с согласием по timing-у — аудит после завершения v1.22.0 (≈ начало июня 2026). Серия v1.21.x закрыта (5 релизов, Phase 1 done); v1.22.0 разбита на 5 блоков A–E, выполнены B и A, осталось C (DDL, самый тяжёлый), D, E. План аудита соответствует структуре письма (терминология стадий → тестовый прогон → PENDING_FOLLOWUPS → отчёт).
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-23-end-to-end-audit-acknowledged.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-23-end-to-end-audit-acknowledged.md)
