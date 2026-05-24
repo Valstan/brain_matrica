@@ -45,6 +45,12 @@
 
 ## Применённые идеи из pool
 - **#003** SESSION_HANDOFF + `/close_session` skill — ✅ 2026-05-22, pilot
+- **#005** `docs/CODEBASE_MAP.md` куратируемая карта монорепо — ✅ 2026-05-24, pilot ([MatricaRMZ#28](https://github.com/Valstan/MatricaRMZ/pull/28))
+- **#006** Full-session SSH opt-in в `/start` — ✅ 2026-05-24 ([MatricaRMZ#32](https://github.com/Valstan/MatricaRMZ/pull/32))
+
+## Milestones
+
+- **2026-05-24 — финальный end-to-end acceptance audit пройден, готов к промышленной эксплуатации.** Блокеров не найдено, 5 точечных UX-полировок в `docs/PENDING_FOLLOWUPS.md` (нон-блокеры). Аудит проведён гибридом (4 субагента code + live UI + business feedback). Детали в [`mailboxes/MatricaRMZ/from-brain/ARCHIVE/2026-05-23-end-to-end-audit-before-production.md`](../mailboxes/MatricaRMZ/from-brain/ARCHIVE/2026-05-23-end-to-end-audit-before-production.md) (Final Result).
 
 ## Известные блокеры стратегического уровня
 - **Anthropic API geo-block** — РФ-IP режется CloudFront edge'ом. AI-фичи на проде отключены (`AI_ENABLED=false`). Решается forward-proxy через зарубежный VPS — не реализовано.

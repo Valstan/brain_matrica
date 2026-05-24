@@ -10,7 +10,7 @@
 
 | # | Идея | GONBA | MatricaRMZ | setka | KARMAN |
 |---|---|---|---|---|---|
-| [006](ideas/006-full-session-ssh-optin.md) | **Full-session SSH opt-in в `/start`** — третий вариант `AskUserQuestion` «дай полный SSH-доступ на эту сессию», Claude не переспрашивает на каждый ssh-вызов в рамках сессии. | ⚠️ директива 2026-05-24 | ⚠️ директива 2026-05-24 | ✅ pioneer | ⚠️ директива 2026-05-24 |
+| [006](ideas/006-full-session-ssh-optin.md) | **Full-session SSH opt-in в `/start`** — третий вариант `AskUserQuestion` «дай полный SSH-доступ на эту сессию», Claude не переспрашивает на каждый ssh-вызов в рамках сессии. | ⚠️ директива 2026-05-24 | ✅ 2026-05-24 | ✅ pioneer | ⚠️ директива 2026-05-24 |
 | [005](ideas/005-codebase-map.md) | **`docs/CODEBASE_MAP.md` — куратируемая карта монорепо** для узкого cold-start (≤2 экрана, где живёт что + когда сюда лезть). Пилот token economy этап 3. | ⚠️ candidate (ждём 2026-06-07) | ✅ 2026-05-24 (pilot) | ⚠️ candidate (ждём 2026-06-07) | ⚠️ candidate (ждём 2026-06-07) |
 | [004](ideas/004-minimalist-ai-docs-2026.md) | **Минимализм AI-docs 2026** — упразднение `DEV_HISTORY` / `DEVELOPMENT_LOG`, их роль покрывает `SESSION_HANDOFF` + Failed approaches + `git log` + ADR. Артефакт эры слабых LLM. | ⚠️ кандидат | ⚠️ кандидат | ⚠️ кандидат | ⚠️ кандидат |
 | [003](ideas/003-session-handoff.md) | `docs/SESSION_HANDOFF.md` + `/close_session` skill для непрерывности разработки между сессиями (многоэтапные рефакторинги) | ✅ 2026-05-22 | ✅ 2026-05-22 | ⚠️ директива 2026-05-23 | ⚠️ директива 2026-05-24 (suggest, backlog) |

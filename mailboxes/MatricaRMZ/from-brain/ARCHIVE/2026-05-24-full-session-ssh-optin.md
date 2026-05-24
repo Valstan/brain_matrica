@@ -78,3 +78,12 @@ Pool [#001 SSH key isolation](../../../cross-project-ideas/ideas/001-isolated-de
 ## Follow-up для brain
 
 После acknowledgement — brain обновит [pool #006 INDEX](../../../cross-project-ideas/INDEX.md): MatricaRMZ `⚠️ директива 2026-05-24` → `✅ YYYY-MM-DD`.
+
+---
+
+## Result
+
+**Date:** 2026-05-24
+**Status:** done
+**Notes:** Применено в ту же сессию (~30 минут от отправки до ack). Добавлен §5.5 «Прод-probe» в `.claude/commands/start.md` с `AskUserQuestion` тремя вариантами (Да / Нет / Полный доступ). Probe-команды read-only: `systemctl is-active matricarmz-backend-primary/secondary`, `curl -fsk https://127.0.0.1/health`, `git log --oneline -3` — все через `ssh -o ConnectTimeout=15 matricarmz` (fail2ban-friendly). Поведение третьего варианта прописано явно: per-session, не allowlist в settings.json; деструктивные команды (`rm`, `DROP TABLE`, `systemctl stop`, `git reset --hard`) всё равно требуют осознанной паузы. Стыковка с pool #001 — третий вариант работает через `id_ed25519_matricarmz_deploy` (уже изолированный ключ применён). Снято противоречие со старым «не дёргать прод на старте» — probe запускается только по явному выбору пользователя. INDEX #006 MatricaRMZ → ✅ 2026-05-24.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-24-full-session-ssh-optin-applied.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-24-full-session-ssh-optin-applied.md)
