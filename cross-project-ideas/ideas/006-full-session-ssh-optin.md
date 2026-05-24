@@ -1,6 +1,6 @@
 # 006 — Full-session SSH opt-in в `/start` (выдача carte blanche на прод-SSH в начале сессии)
 
-**Status (overall):** ⚠️ proposed (пилот в setka работает, директивы остальным проектам отправлены 2026-05-24)
+**Status (overall):** ⚠️ in adoption (setka pioneer, MatricaRMZ ✅ 2026-05-24, GONBA/KARMAN — директивы 2026-05-24)
 **Born in:** setka, `.claude/commands/start.md` шаг 5 (исторически).
 **Born from:** пользователь спросил «есть фишка в setka где можно дать полный SSH-доступ на сессию, чтобы Claude не переспрашивал стопитсот раз — давай и в остальных проектах».
 
@@ -77,7 +77,7 @@ options:
 | Проект | Статус | Дата | Заметка |
 |---|---|---|---|
 | setka | ✅ применено | (давно) | Pioneer. `.claude/commands/start.md` шаг 5 — третий вариант `«Дай полный доступ ssh setka на эту сессию»`. Связано: memory `remote-access-ssh-only` (политика SSH-only прод-доступа). |
-| MatricaRMZ | ⚠️ директива 2026-05-24 | 2026-05-24 | Письмо `2026-05-24-full-session-ssh-optin.md` (recommend, low). Адаптировать: ssh-alias `matricarmz`. Стыкуется с pending изоляцией deploy-ключа ([pool #001](001-isolated-deploy-ssh-key.md)) — третий вариант явно показывает что используется именно изолированный ключ. |
+| MatricaRMZ | ✅ применено | 2026-05-24 | [MatricaRMZ#32](https://github.com/Valstan/MatricaRMZ/pull/32). Применено в ту же сессию (~30 минут от отправки до ack). `.claude/commands/start.md` §5.5 «Прод-probe» с тремя вариантами AskUserQuestion. Probe-команды: `systemctl is-active matricarmz-backend-primary/secondary`, `curl -fsk https://127.0.0.1/health`, `git log --oneline -3` — все через `ssh -o ConnectTimeout=15 matricarmz` (fail2ban-friendly). Стыковка с pool #001 — третий вариант через изолированный `id_ed25519_matricarmz_deploy`. |
 | GONBA | ⚠️ директива 2026-05-24 | 2026-05-24 | Письмо `2026-05-24-full-session-ssh-optin.md` (recommend, low). Адаптировать: ssh-alias `GONBA` (uppercase, см. `~/.ssh/config`). Сейчас актуально — есть pending применение SQL `prod-redesign-config` с dev-машины, opt-in упростит финальный шаг. |
 | KARMAN | ⚠️ директива 2026-05-24 | 2026-05-24 | Письмо `2026-05-24-full-session-ssh-optin.md` (recommend, low). KARMAN сейчас близок к dormant — директива берётся при пробуждении проекта вместе с [pool #003 SESSION_HANDOFF](003-session-handoff.md). |
 
