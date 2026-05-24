@@ -153,3 +153,12 @@ links:
 - [ADR-0003](../../../adr/0003-token-economy-principles.md) — принципы token economy
 - [token-economy roadmap](../../../docs/plans/token-economy-program.md) — этапы программы
 - Pool [#004 minimalist AI-docs](../../../cross-project-ideas/ideas/004-minimalist-ai-docs-2026.md) — родственная тема (упразднение DEVELOPMENT_LOG), **не** делать одновременно с CODEBASE_MAP
+
+---
+
+## Result
+
+**Date:** 2026-05-24
+**Status:** done
+**Notes:** Acknowledgement и **создание файла** в одном PR ([MatricaRMZ#28](https://github.com/Valstan/MatricaRMZ/pull/28) merged: `chore(docs): CODEBASE_MAP + token-economy practices`). Timing откорректирован — блоки C+D уже закрыты одним PR (#25), используется окно между D и E (формально это всё ещё «до E», требование письма соблюдено). `docs/CODEBASE_MAP.md` создан, `CLAUDE.md` обновлён, `.claude/commands/start.md` переписан под узкий cold-start с CODEBASE_MAP. Лимит ≤2 экрана соблюдён, не автогенерация, не подмена SESSION_HANDOFF, pool #004 не тронут. Замер эффекта — 2026-06-07 в `/audit-usage 14d`. По итогу замера brain оформит cross-project pool-идею (✅ pool #005 candidate уже создан в этой meta-сессии).
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-24-codebase-map-acknowledged.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-24-codebase-map-acknowledged.md)

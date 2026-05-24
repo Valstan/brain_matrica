@@ -102,3 +102,12 @@ MatricaRMZ — главный cost driver всех проектов под brain
 ## Follow-up для brain
 
 После применения + замера через 2 недели — brain зафиксирует результат в [`docs/plans/token-economy-program.md`](../../../docs/plans/token-economy-program.md) истории. Если эффект подтверждён — пакет практик предлагается остальным проектам (GONBA, setka, KARMAN при пробуждении).
+
+---
+
+## Result
+
+**Date:** 2026-05-24
+**Status:** acknowledged
+**Notes:** Все 6 практик приняты как `recommend` / SHOULD и применены уже в той же сессии (не со следующей). `/start`-skill переписан на узкий cold-start через `CODEBASE_MAP.md` вместо энциклопедического обхода `docs/`. Routing моделей (Opus 1M для архитектуры, Sonnet/`/fast` для мелочи), `Explore` sub-agents для >3 Glob/Grep по одной теме, `/compact` для смежных задач, параллельные tool calls, `/cost` в `/close_session` — всё принято. Антипаттерны учтены (не превращать в формальность, sub-agent ≠ всегда дешевле). Замер 2026-06-07 согласован, цель top-сессии MatricaRMZ $113→$60-80.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-24-token-economy-tactical-applied.md`](../../../../MatricaRMZ/mailbox/to-brain/2026-05-24-token-economy-tactical-applied.md)
