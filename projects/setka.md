@@ -45,6 +45,7 @@
 - **#001** Изолированный per-project SSH-deploy-ключ — ✅ 2026-05-22
 - **#003** SESSION_HANDOFF + `/close_session` — ✅ 2026-05-23 ([PR #20](https://github.com/Valstan/setka/pull/20)). Отдельный `/close_session` (не слит с `/finish`). `docs/plans/` не создавали — plan mode редок.
 - **#004** Минимализм AI-docs (упразднение DEV_HISTORY) — ✅ 2026-05-24 (setka `docs/adr/0001-archive-dev-history.md`). Хронология → `git log` + `gh pr view` + SESSION_HANDOFF.
+- **#008** Секреты вне репозитория — ✅ **pioneer**. `/etc/setka/setka.env` (root, вне дерева репо), все юниты через `EnvironmentFile=`; в репо `config/setka.env.example`. Идея отправлена в pool 2026-05-28, разослана GONBA/MatricaRMZ/KARMAN.
 
 ## Связанные cross-project ADRs
 
