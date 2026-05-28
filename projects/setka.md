@@ -34,7 +34,8 @@
 
 - [START_HERE.md](https://github.com/Valstan/setka/blob/main/docs/START_HERE.md) — быстрый старт
 - [AI_DEV_GUIDE.md](https://github.com/Valstan/setka/blob/main/docs/AI_DEV_GUIDE.md) — архитектурный гайд
-- [DEV_HISTORY.md](https://github.com/Valstan/setka/blob/main/docs/DEV_HISTORY.md) — хронология
+- [SESSION_HANDOFF.md](https://github.com/Valstan/setka/blob/main/docs/SESSION_HANDOFF.md) — нить между сессиями (#003, с 2026-05-23)
+- ~~DEV_HISTORY.md~~ — упразднена 2026-05-24 (#004); хронология в `git log` / `gh pr view`
 - [PENDING_FOLLOWUPS.md](https://github.com/Valstan/setka/blob/main/docs/PENDING_FOLLOWUPS.md) — открытые задачи
 - [OPERATIONS.md](https://github.com/Valstan/setka/blob/main/docs/OPERATIONS.md) — эксплуатация
 - [REMOTE_ACCESS.md](https://github.com/Valstan/setka/blob/main/docs/REMOTE_ACCESS.md) — **только SSH через `setka-prod`**, не MCP
@@ -42,7 +43,8 @@
 ## Применённые идеи из pool
 
 - **#001** Изолированный per-project SSH-deploy-ключ — ✅ 2026-05-22
-- **#003** SESSION_HANDOFF + `/close_session` — ❓ (применить аналогично GONBA/MatricaRMZ — на setka сейчас `DEV_HISTORY` + `/finish`, не `SESSION_HANDOFF` + `/close_session`)
+- **#003** SESSION_HANDOFF + `/close_session` — ✅ 2026-05-23 ([PR #20](https://github.com/Valstan/setka/pull/20)). Отдельный `/close_session` (не слит с `/finish`). `docs/plans/` не создавали — plan mode редок.
+- **#004** Минимализм AI-docs (упразднение DEV_HISTORY) — ✅ 2026-05-24 (setka `docs/adr/0001-archive-dev-history.md`). Хронология → `git log` + `gh pr view` + SESSION_HANDOFF.
 
 ## Связанные cross-project ADRs
 
@@ -50,6 +52,6 @@ _(пока нет)_
 
 ## Особенности / стратегические долги
 
-- На setka свой стиль docs — `START_HERE` + `AI_DEV_GUIDE` + `DEV_HISTORY` + `/finish`. Отличается от MatricaRMZ/GONBA (`SESSION_HANDOFF` + `/close_session`). **Стратегический вопрос:** унифицировать или оставить — это разные подходы к одной цели (continuity между сессиями).
+- ~~Свой стиль docs (DEV_HISTORY + /finish)~~ — **выровнен 2026-05-24**: применены #003 (SESSION_HANDOFF + `/close_session`) и #004 (упразднена DEV_HISTORY). Теперь как MatricaRMZ/GONBA: SESSION_HANDOFF + ADR + git log. `/finish` и `/close_session` сосуществуют (разные триггеры).
 - Прод-доступ строго через `setka-prod` SSH-alias; **MCP не использовать** (auto-mode classifier блокирует, и правильно — путаются разные VPS).
 - На проде нет push-миграции — изменения схемы вручную через `/sql` skill.

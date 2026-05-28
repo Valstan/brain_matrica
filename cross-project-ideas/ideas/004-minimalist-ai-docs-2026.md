@@ -44,7 +44,7 @@
 
 | Проект | DEV_HISTORY/LOG | Решение |
 |---|---|---|
-| **setka** | `DEV_HISTORY.md` | Кандидат на упразднение. Артефакт «эры переноса логики из Postopus в setka» (когда LLM были слабее и контекст не помещался). После применения #0004 (SESSION_HANDOFF) + Failed approaches секции — DEV_HISTORY становится избыточной |
+| **setka** | ~~`DEV_HISTORY.md`~~ упразднена | ✅ 2026-05-24 — `git rm DEV_HISTORY.md`, решение зафиксировано в setka `docs/adr/0001-archive-dev-history.md`. Хронология теперь в `git log` + `gh pr view` + `SESSION_HANDOFF`. История файла доступна через `git log --follow -- docs/DEV_HISTORY.md`. |
 | **MatricaRMZ** | `DEVELOPMENT_LOG.md` | Кандидат на упразднение. Хорошие commit messages + есть SESSION_HANDOFF + ADR. DEVELOPMENT_LOG дублирует |
 | **GONBA** | `DEVELOPMENT_LOG.md` | Кандидат на упразднение, по аналогии с MatricaRMZ |
 
@@ -78,4 +78,4 @@
 |---|---|
 | MatricaRMZ | ⚠️ применимо, не применено — кандидат после применения #003 + #0006 |
 | GONBA | ⚠️ применимо, не применено — кандидат после применения #0006 |
-| setka | ⚠️ применимо, не применено — кандидат после применения #0004 + #0006 |
+| setka | ✅ применено 2026-05-24 — `DEV_HISTORY.md` упразднена, setka ADR-0001. Adaptation: прожита 1 нитка с SESSION_HANDOFF (не 2-3 как рекомендовал pool), но пользователь дал прямую команду; контекст после 5 рефакторных PR показал преимущество git-хронологии. Исторические markers «закрыто YYYY-MM-DD, см. DEV_HISTORY» в PENDING оставлены намеренно — теперь работают как pointers в `git show <commit>~N:docs/DEV_HISTORY.md`. |

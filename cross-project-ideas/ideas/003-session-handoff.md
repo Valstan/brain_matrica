@@ -1,6 +1,6 @@
 # 003 — SESSION_HANDOFF.md + `/close_session` skill для непрерывности разработки между сессиями
 
-**Status (overall):** ⚠️ proposed
+**Status (overall):** ✅ in adoption (MatricaRMZ + GONBA + setka применили; KARMAN — директива, ждёт пробуждения)
 **Born in:** MatricaRMZ, 2026-05-22 session
 **Born from:** пользователь спросил «как сделать чтобы ниточки разработок не прерывались и не забывались между сессиями, особенно при работе с двух компов».
 
@@ -91,8 +91,8 @@ SESSION_HANDOFF ссылается на пункт в PENDING_FOLLOWUPS — не
 |---|---|---|---|
 | MatricaRMZ | ✅ применено | 2026-05-22 | Pilot. Файл `docs/SESSION_HANDOFF.md`, skill `/close_session`, расширен `/start` шагом 0, директива в CLAUDE.md «планы создавать в docs/plans/». |
 | GONBA | ✅ применено | 2026-05-22 | Перенесено из MatricaRMZ. Файл `docs/SESSION_HANDOFF.md` создан с активной ниткой «Media → Я.Диск», skill `/close_session` в `.claude/commands/`, `/start` расширен шагом 0, CLAUDE.md обновлён (источники правды + lifecycle + директива про `docs/plans/`), создан `docs/plans/README.md`. |
-| setka | ⚠️ применимо, не применено | 2026-05-23 | Pool-фиксация: применимо (есть `DEV_HISTORY.md`, нитки, многоэтапные рефакторинги). Brain директиву не отправлял — взять в работу когда у setka будет окно между большими нитками (текущая «модуль авто-регистрации регионов» — deep flow, не отвлекать). |
-| KARMAN | ⚠️ применимо, не применено | 2026-05-23 | Pool-фиксация: применимо. KARMAN сейчас в between threads → close to dormant, нет ничего из `docs/` — отличное окно чтобы заложить SESSION_HANDOFF до старта следующей нитки. Brain директиву не отправлял (low priority до пробуждения проекта). |
+| setka | ✅ применено | 2026-05-23 | [PR #20](https://github.com/Valstan/setka/pull/20) (`feat/session-handoff`). Отдельный `/close_session` (не слит с `/finish` — разные триггеры, подтверждено практикой). `start.md` шаг 0 (порог ≤7 дней). **Adaptation notes:** (1) `docs/plans/` **не создавали** — plan mode в setka редок, работа с одного компа; ad-hoc при необходимости. (2) Live track-record за ~3 дня — handoff прожил 6+ ниток, новые сессии открываются без 2-3 пассов вопросов. (3) Stale между PR-ами — типичный паттерн (5-9 PR/день); обновлять handoff на финальном PR через `/close_session`, не после каждого. (4) **Mailbox-check в `/start` через `Bash ls`, не `Glob`** — относительный `Glob` через MCP не видит путь вне корня проекта (`No files found` для `../brain_matrica/mailboxes/setka/from-brain/*.md`); `start.md` шаг 0.2 явно требует `Bash ls`. Релевантно всем проектам с brain-mailbox. |
+| KARMAN | ⚠️ директива 2026-05-24 (suggest, backlog) | 2026-05-24 | Письмо `2026-05-24-adopt-session-handoff.md`. KARMAN near-dormant — берётся при пробуждении проекта (пакетом с #006). Brain директиву отправил, ack нет. |
 
 ## Как переносить в новый проект
 

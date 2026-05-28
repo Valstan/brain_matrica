@@ -94,3 +94,12 @@ links:
 - MatricaRMZ применил 2026-05-22 — пример: `../MatricaRMZ/docs/SESSION_HANDOFF.md`, `../MatricaRMZ/.claude/commands/close_session.md`
 - GONBA применил 2026-05-22 — пример: `../Gonba/docs/SESSION_HANDOFF.md`, `../Gonba/.claude/commands/close_session.md`
 - [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md) — обязательно ветка + PR, не push в main
+
+---
+
+## Result
+
+**Date:** 2026-05-26 (дата ack-письма)
+**Status:** done
+**Notes:** SESSION_HANDOFF + `/close_session` внедрены в [PR #20](https://github.com/Valstan/setka/pull/20) ещё 2026-05-23 (формальный ack пришёл 2026-05-26 — закрытие долга). Отдельный `/close_session`, не слит с `/finish` (разные триггеры). `docs/plans/` не создавали — plan mode редок, работа с одного компа. `start.md` шаг 0.2 явно требует mailbox-check через `Bash ls`, не `Glob`. Pool #003 setka → ✅ 2026-05-23, adaptation notes перенесены.
+**Acknowledgement:** [`setka/mailbox/to-brain/2026-05-26-adopt-session-handoff-done.md`](../../../../setka/mailbox/to-brain/2026-05-26-adopt-session-handoff-done.md)
