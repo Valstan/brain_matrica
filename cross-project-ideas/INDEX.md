@@ -10,6 +10,7 @@
 
 | # | Идея | GONBA | MatricaRMZ | setka | KARMAN |
 |---|---|---|---|---|---|
+| [009](ideas/009-share-findings-reflex.md) | **Рефлекс шеринга находок** — условный шаг в `/close_session`: если в сессии родилась значимая переносимая фишка (скилл/паттерн/решённая боль), проект сам пишет `mailbox/to-brain/`. Анти-спам фильтр обязателен (значимость + переносимость + неочевидность); тишина = норма. | ⚠️ директива 2026-05-29 | ⚠️ директива 2026-05-29 | ✅ pioneer 2026-05-29 | ⚠️ в связке с #003 |
 | [008](ideas/008-secrets-outside-repo.md) | **Секреты вне репозитория** — `/etc/<project>/<project>.env` (root, `0640`) + systemd `EnvironmentFile=`, в репо только `*.env.example`. Безопаснее `.env` в дереве репо. | ⚠️ директива 2026-05-28 | ⚠️ директива 2026-05-28 | ✅ pioneer | ⚠️ директива 2026-05-28 |
 | [007](ideas/007-close-session-auto-merge.md) | **`/close_session` авто-мерж готовых PR + sync веток** — multi-machine workflow, чтобы нить не рвалась между компами (auto-merge зелёных PR + финальный `git fetch --prune` + verify `main=origin/main`). | ❓ кандидат | ✅ pioneer 2026-05-26 | ❓ кандидат | ❓ кандидат |
 | [006](ideas/006-full-session-ssh-optin.md) | **Full-session SSH opt-in в `/start`** — третий вариант `AskUserQuestion` «дай полный SSH-доступ на эту сессию», Claude не переспрашивает на каждый ssh-вызов в рамках сессии. | ⚠️ директива 2026-05-24 | ✅ 2026-05-24 | ✅ pioneer | ⚠️ директива 2026-05-24 |
