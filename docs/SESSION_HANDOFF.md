@@ -3,112 +3,65 @@
 > Sticky-note для непрерывности meta-сессий. Перезаписывается командой `/close_session`. История через `git log -- docs/SESSION_HANDOFF.md`.
 
 **Status:** ACTIVE
-**Updated:** 2026-05-24 evening (Claude Opus 4.7 — MatricaRMZ closed e2e-audit + #006 applied; `/health` расширен connectivity-check; pool #005/#006 оформлены)
+**Updated:** 2026-05-29 (Claude Opus 4.8 — оформлен pool #009 share-findings-reflex + 4 директивы; PR #34 merged)
 **Branch:** main
 
 ## Текущая нитка
 
-**Token economy program — пилот в MatricaRMZ.** Сознательно отступили от 2-точечного критерия (нужны были 2 замера прежде разморозки этапов 2/3) и направили программу в **главный cost driver** — MatricaRMZ (66% baseline-расходов). Этап 3 (CODEBASE_MAP) переориентирован с GONBA/KARMAN на MatricaRMZ.
+Две параллельные нитки на мета-уровне:
 
-**Статус пакета MatricaRMZ (на 2026-05-24):**
-- ✅ **Tactical practices** — `acknowledged` (письмо `2026-05-24-token-economy-tactical-applied.md`). Применено уже в той же сессии (узкий `/start`, routing моделей, `Explore` sub-agents, `/compact`, параллельные tool calls, `/cost` в `/close_session`). Оригинал директивы архивирован.
-- ✅ **`docs/CODEBASE_MAP.md`** — `done` (письмо `2026-05-24-codebase-map-acknowledged.md` + [MatricaRMZ#28](https://github.com/Valstan/MatricaRMZ/pull/28) merged). Карта создана, `CLAUDE.md` обновлён, `start.md` переписан. Оригинал директивы архивирован.
+1. **🆕 Pool #009 «Рефлекс шеринга находок» — только что запущен.** По запросу @valstan: проекты должны **сами** делиться новыми переносимыми скиллами/фишками, а не ждать явной просьбы. Раньше канал `to-brain` существовал, но само-инициативная находка прилетела **1 раз за всё время** (setka → #008). Решение: условный шаг в проектном `/close_session` (само-проверка «родилось ли значимое переносимое?») + 3-частный анти-спам фильтр (значимость + переносимость + неочевидность; **тишина = норма**). Раскатано директивами всем 4 сразу (PR [#34](https://github.com/Valstan/brain_matrica/pull/34) merged). setka — pioneer (формализует то, что уже делал спонтанно), KARMAN — в связке с #003.
 
-Cycle закрылся **в ту же сессию** — оба ack'а пришли быстрее ожидаемого.
-
-**Cross-project pool-идея оформлена авансом:** [pool #005 CODEBASE_MAP](../cross-project-ideas/ideas/005-codebase-map.md) — `⚠️ candidate` для GONBA/setka/KARMAN с явным «ждём 2026-06-07». Применять к остальным проектам **только после подтверждения эффекта** в `/audit-usage 14d`.
-
-Замер эффекта — `/audit-usage 14d` ≈ **2026-06-07**: сравнение с baseline. Цель — top-сессии MatricaRMZ \$113 → \$80, средний cost -20%.
+2. **Token-economy program — ждём вторую точку замера ≈2026-06-07.** Пилот в MatricaRMZ (главный cost driver, 66% baseline) применён. Замер `/audit-usage 14d` сравнить с baseline (см. «Контекст»). Если -20%+ → снять `(ждём)` с pool #005 CODEBASE_MAP, раскатать на GONBA/setka.
 
 ## Следующий шаг
 
-**Entry-point для следующей meta-сессии (одна из веток в зависимости от даты):**
+Зависит от даты входа в следующую meta-сессию:
 
 ### Вариант A — раньше 2026-06-07
+1. `/start` подберёт ack'и из `to-brain/` проектов. **Ожидается первым — ack от setka на #009** (он уже в теме шеринга).
+2. Обработать любые новые письма (форвард в pool, ack-архивация по правилам `/start` 2.5/2.6).
+3. По token-economy замеру ничего не делать — рано.
 
-1. Проверить ack'и (3 директивы остались в полёте: GONBA partial + setka + KARMAN — обе SESSION_HANDOFF)
-2. По существу замера ничего не делать — рано
-3. Если есть свежие письма `to-brain` — обработать (форвард в pool, ack обратно, архивация)
-4. Если GONBA пришлёт финальное письмо «SQL applied to prod» — архивировать `2026-05-23-prod-redesign-followup-config.md`
-
-### Вариант B — на или после 2026-06-07
-
-1. Запустить `/audit-usage 14d` — вторая точка замера
-2. Сравнить с baseline (см. ниже «Baseline 2026-05-16 .. 2026-05-23»)
-3. **Ревью результата MatricaRMZ-пакета:**
-   - Top-сессии MatricaRMZ опустились ниже \$80? Tactical practices работают
-   - CODEBASE_MAP создан (✅ done 2026-05-24, [MatricaRMZ#28](https://github.com/Valstan/MatricaRMZ/pull/28)) — измерять отдельную дельту от карты vs от tactical practices сложно (применены одновременно), смотреть совокупный эффект
-   - Сэкономлено -20% или больше? → **снять `(ждём 2026-06-07)`** с pool #005, отправить директиву CODEBASE_MAP в GONBA/setka (KARMAN при пробуждении). Tactical practices — оформить отдельной pool-идеей.
-   - Если эффект слабый / нет → пересмотреть гипотезу, обновить ADR-0003 changelog, возможно откатить часть практик
-4. Записать вторую точку и решение в [token-economy roadmap](plans/token-economy-program.md) → история
+### Вариант B — на/после 2026-06-07
+1. `/audit-usage 14d` — вторая точка, сравнить с baseline.
+2. Ревью эффекта MatricaRMZ-пакета (tactical practices + CODEBASE_MAP применены одновременно — мерить совокупно).
+3. -20%+ → снять `(ждём 2026-06-07)` с [pool #005](../cross-project-ideas/ideas/005-codebase-map.md), директива CODEBASE_MAP в GONBA/setka; tactical practices оформить отдельной pool-идеей. Слабо/нет → пересмотреть гипотезу, changelog ADR-0003.
+4. Записать вторую точку в [token-economy roadmap](plans/token-economy-program.md).
 
 ## Контекст
 
-### Baseline 2026-05-16 .. 2026-05-23 (первый прогон `/audit-usage`)
-
-- **Total:** \$491.25 · 705M tokens · 27 sessions · cache rate **97%**
-- **Top-проект:** MatricaRMZ **\$325.60 (66%)** — 9 сессий, 2 worktree
-- **Топ-сессии:** обе MatricaRMZ — `e18945ec` \$113.76 (8.5ч, cold start «прочитай readme»), `6cc0759f` \$113.62 (6ч, `/start` тактический развернулся в энциклопедический обход)
-- **Доли:** setka 15% / brain_matrica 8% / GONBA 6% / KARMAN 3% / mikrokredit (archived) 1%
-- **Гипотеза подтверждена частично:** MatricaRMZ — главный driver, антипаттерн — длинные cold-start. Окончательно проверится во второй точке.
-
-### Связанные коммиты / PR этой сессии
-
-- `2889650` — PR [#22](https://github.com/Valstan/brain_matrica/pull/22): archive MatricaRMZ acks (SSH + e2e-audit) ✅ merged
-- `5c0b5e7` — PR [#23](https://github.com/Valstan/brain_matrica/pull/23): KARMAN adopt SESSION_HANDOFF + закрытие mikrokredit ✅ merged
-- `cf99df3` — PR [#24](https://github.com/Valstan/brain_matrica/pull/24): MatricaRMZ token-economy directives ✅ merged
-- PR [#27](https://github.com/Valstan/brain_matrica/pull/27) — MatricaRMZ token-economy acks архивированы + GONBA report acknowledged + pool #005 candidate ✅ merged
-- PR [#29](https://github.com/Valstan/brain_matrica/pull/29) — pool #006 + 3 директивы (MatricaRMZ/GONBA/KARMAN) ✅ merged
-- PR (новый, evening) — MatricaRMZ #006 SSH-optin applied (archived) + e2e-audit completed (Final Result) + projects/MatricaRMZ.md milestone + `/health` connectivity-check расширен + INDEX #006 MatricaRMZ ✅
-
-### Состояние ресурсов
-
-- **Inbox:** пуст
-- **Pool:** **6 идей** (#001-#006). #005 «CODEBASE_MAP» MatricaRMZ ✅ pilot, GONBA/setka/KARMAN `candidate (ждём 2026-06-07)`. #006 «Full-session SSH opt-in» setka ✅ pioneer, MatricaRMZ/GONBA/KARMAN `⚠️ директива 2026-05-24`.
-- **Tech-radar:** без изменений
-- **ADRs:** без изменений
+- **Pool:** 9 идей (#001–#009). Свежее: **#009 share-findings-reflex** (born in brain, setka pioneer). #008 secrets-outside-repo (setka pioneer, 3 директивы в полёте). #007 close_session auto-merge (setka pioneer). #005 CODEBASE_MAP (MatricaRMZ pilot, остальные `ждём 2026-06-07`).
+- **Inbox:** пуст.
+- **Tech-radar / ADRs:** без изменений в этой сессии.
+- **Связанные коммиты сессии:** `6800e4c` (PR [#34](https://github.com/Valstan/brain_matrica/pull/34) — #009 + 4 директивы).
+- **Baseline token-economy (2026-05-16..05-23):** Total \$491.25 · 705M tok · 27 sessions · cache 97%. MatricaRMZ \$325.60 (66%). Top-сессии — обе MatricaRMZ ~\$113 (cold-start антипаттерн). Цель: top-сессии → <\$80, средний -20%.
 
 ## Открытые вопросы для пользователя
 
-_n/a сейчас_ — пакет MatricaRMZ запущен по варианту «A+B», ждём ack от MatricaRMZ + накопление 14-дневных данных. После 2026-06-07 откроется вопрос «сработало или нет → масштабировать на GONBA/setka или откат».
+_n/a_ — обе нитки в режиме ожидания (ack'и на директивы + накопление 14-дневных данных к 2026-06-07).
 
 ## Не забыть (low-priority)
 
-### Директивы в полёте (после вечернего ингеста 2026-05-24)
+### Директивы в полёте (ждут ack от проектов)
 
-- GONBA → [`2026-05-23-prod-redesign-followup-config.md`](../mailboxes/GONBA/from-brain/2026-05-23-prod-redesign-followup-config.md) — **partial**: SQL заготовлен в [GONBA#35](https://github.com/Valstan/Gonba/pull/35) merged, ждёт применения с dev-машины.
-- GONBA → [`2026-05-24-full-session-ssh-optin.md`](../mailboxes/GONBA/from-brain/2026-05-24-full-session-ssh-optin.md) — `recommend`/`low`.
-- setka → [`2026-05-23-adopt-session-handoff.md`](../mailboxes/setka/from-brain/2026-05-23-adopt-session-handoff.md) — без ответа, `suggest`/`low` (взять в окно между нитками setka).
-- KARMAN → [`2026-05-24-adopt-session-handoff.md`](../mailboxes/KARMAN/from-brain/2026-05-24-adopt-session-handoff.md) — без ответа, `suggest`/`low`, backlog.
-- KARMAN → [`2026-05-24-full-session-ssh-optin.md`](../mailboxes/KARMAN/from-brain/2026-05-24-full-session-ssh-optin.md) — `recommend`/`low`, взять пакетом с #003 при пробуждении.
+- **#009 share-findings-reflex** → все 4: `mailboxes/{MatricaRMZ,GONBA,setka,KARMAN}/from-brain/2026-05-29-share-findings-reflex.md`. setka — formalize; MatricaRMZ — после BOM deep flow; GONBA — окно between threads; KARMAN — в связке с #003.
+- **#008 secrets-outside-repo** → GONBA (подтверждён скан: `.env` в дереве репо, мигрировать в `/etc/gonba/`), MatricaRMZ (сначала проверить posture), KARMAN (в связке с #003). setka — pioneer, done.
+- **#006 full-session SSH opt-in** → GONBA/KARMAN (`recommend`/`low`). MatricaRMZ done, setka pioneer.
+- **MatricaRMZ install/update architecture audit** (`2026-05-28-install-update-architecture-audit.md`) — отдельная нитка, не смешивать с secrets.
+- **GONBA prod-redesign-followup** (`2026-05-23`) — **partial**: SQL в [GONBA#35](https://github.com/Valstan/Gonba/pull/35) merged, ждёт применения с dev-машины.
+- **KARMAN #003 adopt SESSION_HANDOFF** (`2026-05-24`) — `suggest`/backlog, тянет за собой #009 и часть #008. Взять при пробуждении проекта пакетом.
 
-### Архивировано в этой meta-сессии
+### Connectivity
 
-- MatricaRMZ → `2026-05-24-token-economy-tactical-practices.md` → ARCHIVE (status: acknowledged)
-- MatricaRMZ → `2026-05-24-codebase-map-create.md` → ARCHIVE (status: done, [MatricaRMZ#28](https://github.com/Valstan/MatricaRMZ/pull/28))
-- MatricaRMZ → `2026-05-24-full-session-ssh-optin.md` → ARCHIVE (status: done, [MatricaRMZ#32](https://github.com/Valstan/MatricaRMZ/pull/32))
-- MatricaRMZ → `2026-05-23-end-to-end-audit-before-production.md` → Final Result (status: **completed** — готов к промышленной эксплуатации). Уже был в ARCHIVE, дописана вторая секция Final Result.
-
-### Connectivity-snapshot 2026-05-24 evening
-
-Сделан полный mailbox-connectivity audit. Все 4 проекта 🟢:
-- **MatricaRMZ** — отвечает в течение часов, прислал 2 ack'а пока шла meta-сессия (e2e-audit completed + #006 applied)
-- **GONBA** — отвечает в пределах суток (partial по prod-redesign)
-- **setka** — `suggest` директива не отвечена, но активно коммитит код — норма
-- **KARMAN** — near-dormant, ack'ов нет, но это его статус
-
-`/health` skill расширен — теперь даёт connectivity таблицу с возрастом awaiting+last-reply и флагами 🟢/🟡/🟠/🔴. **Запускать раз в неделю** для контроля что связь не оборвалась.
+- `/health` skill даёт mailbox-connectivity таблицу (возраст awaiting + last-reply, флаги 🟢/🟡/🟠/🔴). **Запускать раз в неделю.** Последний полный аудит — 2026-05-24 (все 4 🟢).
 
 ### Технические долги brain
 
-- **`letter.md` skill** — `git mv DRAFTS/file → from-brain/file` не работает для untracked draft; обходное решение применялось — пишем прямо в `from-brain/`. Починить когда руки дойдут.
-- **`/weekly-audit` skill** — [план](plans/weekly-environment-audit.md), не путать с `/audit-usage` (этап 1 token economy). Отдельная история, не приоритет.
+- **`letter.md` skill** — `git mv DRAFTS/→from-brain/` не работает для untracked draft; обход — писать сразу в `from-brain/`. Применялся и в этой сессии (#009 писал напрямую).
+- **PowerShell here-string в commit** — `git commit -m @'...'@` просачивает разделители `@` в тело сообщения. Обход: писать сообщение во временный файл + `git commit -F`. Применено при #34.
+- **`/weekly-audit` skill** — [план](plans/weekly-environment-audit.md), не путать с `/audit-usage`. Не приоритет.
 
 ### Quarterly audit Q3 2026
 
-- август-сентябрь 2026 — совпадает с этапом 4 token economy. Триггер ставится в handoff в первой meta-сессии нового квартала.
-
-### MatricaRMZ-only напоминания
-
-- Если MatricaRMZ пришлёт ack на CODEBASE_MAP с примечанием «трудно куратировать большую карту» — рассмотреть split на `docs/architecture/<module>.md` мелкие.
-- Если CODEBASE_MAP не создан к 2026-06-07 (блок C v1.22.0 затянулся) — замер делаем **только по tactical practices**; CODEBASE_MAP-эффект меряем позже.
+- август-сентябрь 2026 — совпадает с этапом 4 token economy. Триггер ставится в handoff первой meta-сессии нового квартала.
