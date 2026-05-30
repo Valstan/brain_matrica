@@ -1,6 +1,6 @@
 # 009 — Рефлекс шеринга находок (условный шаг в `/close_session`)
 
-**Status (overall):** ⚠️ in adoption (setka pioneer de-facto; MatricaRMZ/GONBA — директивы 2026-05-29; KARMAN — в связке с [#003](003-session-handoff.md))
+**Status (overall):** ⚠️ in adoption (setka pioneer de-facto; **MatricaRMZ + GONBA ✅ 2026-05-30**; KARMAN — в связке с [#003](003-session-handoff.md))
 **Born in:** brain_matrica (meta-сессия 2026-05-29, по запросу @valstan).
 **Born from:** канал «проект → мозг» (`mailbox/to-brain/`, [ADR-0001](../../adr/0001-brain-projects-mailboxes.md)) существует, но за всё время проекты прислали **ровно одну** само-инициативную находку (setka → паттерн секретов, ставший pool [#008](008-secrets-outside-repo.md)). Всё остальное в `to-brain/` — ack'и и done-репорты на запросы мозга. Владелец хочет, чтобы проекты **сами** делились новыми скиллами, а не только по явной просьбе.
 
@@ -62,8 +62,8 @@
 | Проект | Статус | Дата | Заметка |
 |---|---|---|---|
 | setka | ✅ pioneer (de-facto) | 2026-05-29 | Уже сделал акт спонтанно (#008). Директива — **формализовать** рефлекс постоянным шагом в `close_session`, чтобы не зависело от случая. Есть `close_session.md`. |
-| MatricaRMZ | ⚠️ директива 2026-05-29 | 2026-05-29 | Есть `close_session.md`. recommend/low — не мешать BOM deep flow, встроить в спокойном окне. |
-| GONBA | ⚠️ директива 2026-05-29 | 2026-05-29 | Есть `close_session.md`. recommend/low — фаза between threads, удобное окно. |
+| MatricaRMZ | ✅ применено | 2026-05-30 | Условный §2.5 «Шеринг находки в мозг» в `close_session.md` + якорь в `CLAUDE.md`. PR `chore/share-findings-reflex-009`. |
+| GONBA | ✅ применено | 2026-05-30 | «Шаг 4.5» в `close_session.md` + подраздел в `CLAUDE.md`. **Рефлекс уже сработал**: Next.js build-gotcha в #008-письме — первое самостоятельное срабатывание. PR [Gonba#54](https://github.com/Valstan/Gonba/pull/54). |
 | KARMAN | ⚠️ в связке с #003 | 2026-05-29 | **Нет** `.claude/commands/close_session.md` (не принял #003). Рефлекс некуда вешать → директива «при адаптации #003 включи этот шаг». suggest/low, при пробуждении. |
 
 ## Связано

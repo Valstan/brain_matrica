@@ -66,3 +66,12 @@ frontmatter `from: MatricaRMZ`, `to: brain`, `date`, `kind: idea`, `topic`, `com
 
 - Pool [#009 share-findings-reflex](../../../cross-project-ideas/ideas/009-share-findings-reflex.md)
 - [ADR-0001 mailboxes](../../../adr/0001-brain-projects-mailboxes.md), [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md)
+
+---
+
+## Result
+
+**Date:** 2026-05-30
+**Status:** done
+**Notes:** Встроен условный §2.5 «Шеринг находки в мозг» в `.claude/commands/close_session.md` (между SESSION_HANDOFF и commit) + строка-якорь в `CLAUDE.md`. Анти-спам фильтр (значимость ∧ переносимость ∧ неочевидность), «по умолчанию молчим». PR `chore/share-findings-reflex-009`.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-30-share-reflex-adopted.md`](../../../../../MatricaRMZ/mailbox/to-brain/2026-05-30-share-reflex-adopted.md)

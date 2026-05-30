@@ -66,3 +66,12 @@ deploy/systemd/gonba-media-cache.service→ EnvironmentFile=-/home/valstan/GONBA
 - Pool [#008 secrets-outside-repo](../../../cross-project-ideas/ideas/008-secrets-outside-repo.md)
 - Pool [#001 isolated deploy SSH key](../../../cross-project-ideas/ideas/001-isolated-deploy-ssh-key.md) — смежная гигиена секретов (✅ применено в GONBA)
 - [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md)
+
+---
+
+## Result
+
+**Date:** 2026-05-30
+**Status:** done
+**Notes:** Секреты в `/etc/gonba/gonba.env` (`root:valstan` 0640); 3 юнита (`gonba`/`gonba-vk-sync`/`gonba-media-cache`) → `EnvironmentFile=`, health 200. **Прод=systemd зафиксирован в ADR-0005** (docker-compose = dev-only). **Adaptation note (→ pool #008):** Next.js build-time gotcha — `safe-build.sh` автозагружал `.env` из cwd, после выноса ломается; фикс `systemd-run -p EnvironmentFile=`. Любой Next.js-проект под #008 должен проверить И runtime, И build-путь к env. PR [Gonba#53](https://github.com/Valstan/Gonba/pull/53).
+**Acknowledgement:** [`GONBA/mailbox/to-brain/2026-05-30-secrets-outside-repo-done.md`](../../../../../GONBA/mailbox/to-brain/2026-05-30-secrets-outside-repo-done.md)
