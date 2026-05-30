@@ -1,6 +1,6 @@
 # 008 — Секреты вне репозитория (`/etc/<project>/<project>.env` + systemd `EnvironmentFile`)
 
-**Status (overall):** ⚠️ in adoption (setka pioneer; GONBA/MatricaRMZ/KARMAN — директивы 2026-05-28)
+**Status (overall):** ⚠️ in adoption (setka pioneer; **GONBA + MatricaRMZ ✅ 2026-05-30**; KARMAN — директива 2026-05-28, в связке с #003)
 **Born in:** setka (письмо `setka/mailbox/to-brain/2026-05-28-secrets-outside-repo-pattern.md`).
 **Born from:** setka хранит секреты только в `/etc/setka/setka.env` (root-owned, вне дерева репо), сервисы грузят через systemd `EnvironmentFile=`. Предложено рекомендовать паттерн проектам, у кого `.env` лежит в папке репо.
 
@@ -43,8 +43,8 @@
 | Проект | Статус | Дата | Заметка |
 |---|---|---|---|
 | setka | ✅ применено | (pioneer) | `/etc/setka/setka.env` root-owned; `setka` web + `setka-celery-worker` + `setka-celery-beat` → `EnvironmentFile=`. Код читает из окружения, `load_dotenv()` не вызывается. В репо — `config/setka.env.example`. |
-| GONBA | ⚠️ директива 2026-05-28 | 2026-05-28 | **Подтверждено сканом brain:** `EnvironmentFile=-/home/valstan/GONBA/web/.env` в `gonba-web`/`gonba-vk-sync`/`gonba-media-cache` — секреты в дереве репо. Мигрировать в `/etc/gonba/gonba.env`. Учесть `web/docker-compose.yml` (`env_file: .env`). recommend/normal, окно between threads. |
-| MatricaRMZ | ⚠️ директива 2026-05-28 | 2026-05-28 | Posture не подтверждён локально (backend-юниты не в репо). Директива: проверить где `matricarmz-backend-primary/secondary` берут env; если в дереве репо — мигрировать в `/etc/matricarmz/matricarmz.env`. recommend/low, backlog (не мешать BOM deep flow и install/update audit). |
+| GONBA | ✅ применено | 2026-05-30 | `/etc/gonba/gonba.env` (`root:valstan` 0640); 3 юнита → `EnvironmentFile=`. **Прод=systemd зафиксирован в ADR-0005**, docker-compose = dev-only. Adaptation: **Next.js build-time gotcha** (см. ниже). PR [Gonba#53](https://github.com/Valstan/Gonba/pull/53). |
+| MatricaRMZ | ✅ применено | 2026-05-30 | `/etc/matricarmz/matricarmz.env` (`root:valstan` 0640); оба backend-юнита → `EnvironmentFile=`, рестарт по одному без простоя. Adaptation: **in-tree симлинк для dotenv-CLI** (см. ниже). Найдены+удалены 3 stale `.env.bak*`. PR `chore/secrets-externalize-etc-008`. |
 | KARMAN | ⚠️ директива 2026-05-28 | 2026-05-28 | `api/.env` + `karman-api.service` — вероятно в дереве репо. Мигрировать в `/etc/karman/karman.env`. suggest/low, взять при пробуждении проекта пакетом с [#003](003-session-handoff.md). |
 
 ## Как переносить (одноразовая миграция)
@@ -55,6 +55,15 @@
 4. В unit-файле: `EnvironmentFile=/etc/<project>/<project>.env` → `systemctl daemon-reload` → restart.
 5. Убедиться, что код читает из окружения (или указать dotenv-path на новый файл, если используется `load_dotenv`).
 6. Оставить `*.env.example` в репо; при необходимости подчистить `.env` из git-истории.
+
+## Adaptation notes (от адоптеров)
+
+Уроки из реальных миграций — для будущих проектов, применяющих #008:
+
+1. **Dual-consumer (systemd + dotenv-CLI) → симлинк, а не «убрать целиком»** *(MatricaRMZ, 2026-05-30).* Если секреты на проде читает И systemd (`EnvironmentFile=`), И dotenv-скрипты из cwd (релизные `db:migrate`, seed, и т.п. через `import 'dotenv/config'`), то простое удаление in-tree `.env` ломает CLI-шаг релиза. Решение: `/etc/<project>/<project>.env` = single source of truth + **in-tree `.env` → симлинк на него**. Тогда `dotenv` идёт по симлинку, `git clean -fdx` сносит ссылку (а не секрет), кода/runbook менять не надо. Тонкость: сам сервис не упал бы и без симлинка (`EnvironmentFile` инжектит env до `dotenv`, который не перезаписывает заданное) — симлинк нужен именно ради ручных CLI без systemd-env.
+2. **Next.js: проверять И runtime, И build-путь к env** *(GONBA, 2026-05-30).* Next.js автозагружает `.env` из cwd **на build'е** (печёт `NEXT_PUBLIC_*` + prerender с подключением к БД). После выноса `.env` из дерева build-автозагрузка ломается, даже если runtime-юнит починен. Фикс: явный `systemd-run -p EnvironmentFile=/etc/<project>/<project>.env` для transient build-юнита (тот же парсер, что у runtime — кавычки/спецсимволы совпадают). Дешёвый pre-check без утечки значений: transient unit печатает `${VAR:+set}`.
+3. **Установленные прод-юниты — копии, дрейфуют от репо.** И GONBA, и MatricaRMZ нашли inline `Environment=`/пути, которых нет в репо-версии юнита → правили `sed`'ом in-place, а не `cp` из репо (перезатёрло бы prod-only vars). Репо = source of truth, но прод-копии править осознанно.
+4. **Stale `.env.bak*` мимо `.gitignore`** *(MatricaRMZ).* Паттерн `.env` в `.gitignore` НЕ ловит `.env.bak-20260520`/`.env.bak-pre-X` → их мог захватить `git add -A`. При миграции: `find -name '.env*bak*'` + удалить + ужесточить `.gitignore` (`.env.bak*`, `.env.*.bak*`).
 
 ## Связано
 

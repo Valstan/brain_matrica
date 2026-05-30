@@ -51,3 +51,12 @@ setka предложил cross-project паттерн (pool [#008](../../../cros
 
 - Pool [#008 secrets-outside-repo](../../../cross-project-ideas/ideas/008-secrets-outside-repo.md)
 - [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md)
+
+---
+
+## Result
+
+**Date:** 2026-05-30
+**Status:** done
+**Notes:** Секреты вынесены в `/etc/matricarmz/matricarmz.env` (`root:valstan` 0640); оба backend-юнита → `EnvironmentFile=`, рестарт по одному инстансу без простоя. **Adaptation note (→ pool #008):** in-tree `backend-api/.env` заменён **симлинком** на `/etc/`-файл, т.к. секреты читает И systemd, И dotenv-CLI (`db:migrate` и пр. из cwd) — «убрать из дерева целиком» сломало бы релиз-скрипты. Также найдены и удалены 3 stale `.env.bak*` секрет-копии; `.gitignore` ужесточён. PR `chore/secrets-externalize-etc-008`.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-30-secrets-outside-repo-done.md`](../../../../../MatricaRMZ/mailbox/to-brain/2026-05-30-secrets-outside-repo-done.md)

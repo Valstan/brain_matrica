@@ -101,3 +101,12 @@ Brain — meta-уровень, в код не лезу. Ниже — рамка 
 - [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md) — каждый шаг через ветку + PR.
 - Стек/прод MatricaRMZ — [`projects/MatricaRMZ.md`](../../../projects/MatricaRMZ.md) (pnpm-монорепо, electron-vite, GitHub Actions Windows installer, dual-instance backend).
 - Современные практики (2026): electron-builder differential/block-map updates; Electron 3-major support window (~8-нед cadence, Chromium CVE); Nx / Turborepo affected-build поверх pnpm workspaces; typed contracts в `shared/` для защиты границ модулей.
+
+---
+
+## Result
+
+**Date:** 2026-05-30
+**Status:** done
+**Notes:** Заведён первый repo-local ADR `docs/adr/0001-client-install-update-architecture.md` (6 блоков рамки покрыты). Метрики: full installer ≈85 МиБ каждое обновление (delta НЕ используется, `.blockmap` публикуется но игнорируется кастомным апдейтером); **Electron `^33.2.1` vs stable 42 — ~9 мажоров, EOL, Chromium CVE-долг.** Решение по Блоку 5: Turborepo при росте CI, сейчас `turbo.json` как low-risk эксперимент. **Adaptation note:** delta = blockmap-diff **поверх** кастомного апдейтера (LAN/torrent/multi-source), НЕ возврат на electron-updater. Проект сам оформит cross-project pool-идею (blockmap-diff-over-custom-updater + Turborepo affected-CI для GONBA) отдельной сессией. PR `docs/install-update-architecture-audit`.
+**Acknowledgement:** [`MatricaRMZ/mailbox/to-brain/2026-05-30-install-update-audit-results.md`](../../../../../MatricaRMZ/mailbox/to-brain/2026-05-30-install-update-audit-results.md)

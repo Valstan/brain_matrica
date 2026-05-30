@@ -65,3 +65,12 @@ frontmatter `from: GONBA`, `to: brain`, `date`, `kind: idea`, `topic`, `complian
 
 - Pool [#009 share-findings-reflex](../../../cross-project-ideas/ideas/009-share-findings-reflex.md)
 - [ADR-0001 mailboxes](../../../adr/0001-brain-projects-mailboxes.md), [ADR-0002 PR-only flow](../../../adr/0002-pr-only-flow-no-direct-push.md)
+
+---
+
+## Result
+
+**Date:** 2026-05-30
+**Status:** done
+**Notes:** Встроен «Шаг 4.5 Шеринг находки в мозг» в `.claude/commands/close_session.md` (между PENDING и Commit, нумерация 4.5 чтобы не сдвигать) + подраздел «Проактивный шеринг находок (pool #009)» в `CLAUDE.md`. Рефлекс **уже сработал**: adaptation-notes в письме #008 (Next.js build-time gotcha) — первое самостоятельное срабатывание. PR [Gonba#54](https://github.com/Valstan/Gonba/pull/54).
+**Acknowledgement:** [`GONBA/mailbox/to-brain/2026-05-30-share-reflex-adopted.md`](../../../../../GONBA/mailbox/to-brain/2026-05-30-share-reflex-adopted.md)
